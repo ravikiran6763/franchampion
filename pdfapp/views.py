@@ -1011,113 +1011,113 @@ def template1(request,userId=None):
         if hobby1 != 'NA' and hobby2 !='NA':
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 8);
-            pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 12);
-            pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 8);
-            pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
-            pdf.drawString(14.6*cm,(10.05+contactHeight)*cm,hobby2)
-            pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
+            pdf.drawString(14.6*cm,(10.05)*cm,hobby2)
+            pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
         elif hobby1 != 'NA' and hobby2 =='NA':
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 8);
-            pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 12);
-            pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
            
             pdf.setFont('Vera', 8);
-            pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
+            pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
             
-            pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
        
         ################### Criminal History,Bankruptcies,Evictions ##########################
         
         
         if CHFdate1 != 'NA' and CHFdate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'Filing Date   Offense Description');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(7.82+contactHeight)*cm,CHFdate1)
-            pdf.drawString(16.2*cm,(7.82+contactHeight)*cm,CHOdate1)
-            pdf.drawString(14.25*cm,(7.25+contactHeight)*cm,CHFdate2)
-            pdf.drawString(16.2*cm,(7.25+contactHeight)*cm,CHOdate2)
+            pdf.drawString(14.25*cm,(8.45)*cm,'Filing Date   Offense Description');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(7.82)*cm,CHFdate1)
+            pdf.drawString(16.2*cm,(7.82)*cm,CHOdate1)
+            pdf.drawString(14.25*cm,(7.25)*cm,CHFdate2)
+            pdf.drawString(16.2*cm,(7.25)*cm,CHOdate2)
         
         # extraHeight=2
         
         elif CHFdate1 != 'NA' and CHFdate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');
+            pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'Filing Date   Offense Description');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(8.45)*cm,'Filing Date   Offense Description');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(7.82+contactHeight)*cm,CHFdate1)
-            pdf.drawString(16.2*cm,(7.82+contactHeight)*cm,CHOdate1)
+            pdf.drawString(14.25*cm,(7.82)*cm,CHFdate1)
+            pdf.drawString(16.2*cm,(7.82)*cm,CHOdate1)
          
         if BRFdate1 != 'NA' and BRFdate2 != 'NA':
             contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(5.55+contactHeight+crimeHeight)*cm,'BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(5.55)*cm,'BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(4.5+contactHeight+crimeHeight)*cm,BRFdate1)
-            pdf.drawString(16.2*cm,(4.5+contactHeight+crimeHeight)*cm,BROdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(4.5)*cm,BRFdate1)
+            pdf.drawString(16.2*cm,(4.5)*cm,BROdate1)
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(3.93+contactHeight+crimeHeight)*cm,BRFdate2)
-            pdf.drawString(16.2*cm,(3.93+contactHeight+crimeHeight)*cm,BROdate2)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(3.93)*cm,BRFdate2)
+            pdf.drawString(16.2*cm,(3.93)*cm,BROdate2)
         elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
             contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(5.55+contactHeight+crimeHeight)*cm,'BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(5.55)*cm,'BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(4.5+contactHeight+crimeHeight)*cm,BRFdate1)
-            pdf.drawString(16.2*cm,(4.5+contactHeight+crimeHeight)*cm,BROdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(4.5)*cm,BRFdate1)
+            pdf.drawString(16.2*cm,(4.5)*cm,BROdate1)
             
         if EVFdate1 != 'NA' and EVFdate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.1+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(3.15+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.1)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(3.15)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(2.55+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date   Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
-            pdf.drawString(16.2*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+            pdf.drawString(14.25*cm,(2.55)*cm,'Filing Date   Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.95)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(1.95)*cm,EVFdate1)
+            pdf.drawString(16.2*cm,(1.95)*cm,EVOdate1)
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVFdate2)
-            pdf.drawString(16.2*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVOdate2)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.35)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(1.35)*cm,EVFdate2)
+            pdf.drawString(16.2*cm,(1.35)*cm,EVOdate2)
             
         elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(1.75+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawCentredString(15.65*cm,(1.75+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(1.75)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.65*cm,(1.75)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawCentredString(16.1*cm,(1.25+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date     Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(0.7+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(16.1*cm,(1.25)*cm,'Filing Date     Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(0.7)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(0.7+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
-            pdf.drawString(16.2*cm,(0.7+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+            pdf.drawString(14.25*cm,(0.7)*cm,EVFdate1)
+            pdf.drawString(16.2*cm,(0.7)*cm,EVOdate1)
             
       
         pdf.showPage()
@@ -2202,113 +2202,113 @@ def template2(request,userId=None):
         if hobby1 != 'NA' and hobby2 !='NA':
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 8);
-            pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 12);
-            pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 8);
-            pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
-            pdf.drawString(14.6*cm,(10.05+contactHeight)*cm,hobby2)
-            pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
+            pdf.drawString(14.6*cm,(10.05)*cm,hobby2)
+            pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
         elif hobby1 != 'NA' and hobby2 =='NA':
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 8);
-            pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             pdf.setFont('Vera', 12);
-            pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
            
             pdf.setFont('Vera', 8);
-            pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
+            pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
             
-            pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
        
         ################### Criminal History,Bankruptcies,Evictions ##########################
         
         
         if CHFdate1 != 'NA' and CHFdate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'Filing Date   Offense Description');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(7.82+contactHeight)*cm,CHFdate1)
-            pdf.drawString(16.2*cm,(7.82+contactHeight)*cm,CHOdate1)
-            pdf.drawString(14.25*cm,(7.25+contactHeight)*cm,CHFdate2)
-            pdf.drawString(16.2*cm,(7.25+contactHeight)*cm,CHOdate2)
+            pdf.drawString(14.25*cm,(8.45)*cm,'Filing Date   Offense Description');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(7.82)*cm,CHFdate1)
+            pdf.drawString(16.2*cm,(7.82)*cm,CHOdate1)
+            pdf.drawString(14.25*cm,(7.25)*cm,CHFdate2)
+            pdf.drawString(16.2*cm,(7.25)*cm,CHOdate2)
         
         # extraHeight=2
         
         elif CHFdate1 != 'NA' and CHFdate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(8.9)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');
+            pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'Filing Date   Offense Description');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(8.45)*cm,'Filing Date   Offense Description');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.8)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(7.82+contactHeight)*cm,CHFdate1)
-            pdf.drawString(16.2*cm,(7.82+contactHeight)*cm,CHOdate1)
+            pdf.drawString(14.25*cm,(7.82)*cm,CHFdate1)
+            pdf.drawString(16.2*cm,(7.82)*cm,CHOdate1)
          
         if BRFdate1 != 'NA' and BRFdate2 != 'NA':
             contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(5.55+contactHeight+crimeHeight)*cm,'BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(5.55)*cm,'BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(4.5+contactHeight+crimeHeight)*cm,BRFdate1)
-            pdf.drawString(16.2*cm,(4.5+contactHeight+crimeHeight)*cm,BROdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(4.5)*cm,BRFdate1)
+            pdf.drawString(16.2*cm,(4.5)*cm,BROdate1)
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(3.93+contactHeight+crimeHeight)*cm,BRFdate2)
-            pdf.drawString(16.2*cm,(3.93+contactHeight+crimeHeight)*cm,BROdate2)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(3.93)*cm,BRFdate2)
+            pdf.drawString(16.2*cm,(3.93)*cm,BROdate2)
         elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
             contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(5.55+contactHeight+crimeHeight)*cm,'BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.5)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(5.55)*cm,'BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(4.5+contactHeight+crimeHeight)*cm,BRFdate1)
-            pdf.drawString(16.2*cm,(4.5+contactHeight+crimeHeight)*cm,BROdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.5)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(4.5)*cm,BRFdate1)
+            pdf.drawString(16.2*cm,(4.5)*cm,BROdate1)
             
         if EVFdate1 != 'NA' and EVFdate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.1+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(3.15+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.1)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(3.15)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(2.55+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date   Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
-            pdf.drawString(16.2*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+            pdf.drawString(14.25*cm,(2.55)*cm,'Filing Date   Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.95)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(1.95)*cm,EVFdate1)
+            pdf.drawString(16.2*cm,(1.95)*cm,EVOdate1)
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVFdate2)
-            pdf.drawString(16.2*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVOdate2)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.35)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(1.35)*cm,EVFdate2)
+            pdf.drawString(16.2*cm,(1.35)*cm,EVOdate2)
             
         elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(1.75+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawCentredString(15.65*cm,(1.75+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(1.75)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(15.65*cm,(1.75)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawCentredString(16.1*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date     Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(0.85+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawCentredString(16.1*cm,(1.35)*cm,'Filing Date     Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(0.85)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(0.85+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
-            pdf.drawString(16.2*cm,(0.85+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+            pdf.drawString(14.25*cm,(0.85)*cm,EVFdate1)
+            pdf.drawString(16.2*cm,(0.85)*cm,EVOdate1)
             
       
         pdf.showPage()
@@ -5017,7 +5017,7 @@ def pdf_gen(request,userId=None):
                 
                 pdf.setFillColorRGB(255,255,255)
                 pdf.drawString(14.75*cm,14.2*cm,Per_Tel)
-        # pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________') 
+        # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________') 
         
         contactHeight+=2.65 # comment it when hobbies are needed in the report
            
@@ -5026,30 +5026,30 @@ def pdf_gen(request,userId=None):
         # if hobby1 != 'NA' and hobby2 !='NA':
             # pdf.setFillColorRGB(255,255,255)
             # pdf.setFont('Vera', 8);
-            # pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            #pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            #pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             # pdf.setFont('Vera', 12);
-            # pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
             # pdf.setFont('Vera', 8);
-            # pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
-            # pdf.drawString(14.6*cm,(10.05+contactHeight)*cm,hobby2)
-            # pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            # pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
+            # pdf.drawString(14.6*cm,(10.05)*cm,hobby2)
+            # pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
         # elif hobby1 != 'NA' and hobby2 =='NA':
             # pdf.setFillColorRGB(255,255,255)
             # pdf.setFont('Vera', 8);
-            # pdf.drawString(13.7*cm,(12.2+contactHeight)*cm,'________________________________________________')
-            # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
+            # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             # pdf.setFont('Vera', 12);
-            # pdf.drawCentredString(15.55*cm,(11.36+contactHeight)*cm,'HOBBIES');
-            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6+contactHeight)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
+            # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
            
             # pdf.setFont('Vera', 8);
-            # pdf.drawString(14.6*cm,(10.65+contactHeight)*cm,hobby1)
+            # pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
             
-            # pdf.drawString(13.7*cm,(9.7+contactHeight)*cm,'________________________________________________')
+            # pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
        
        
         ################### Criminal History,Bankruptcies,Evictions ##########################
@@ -5057,154 +5057,173 @@ def pdf_gen(request,userId=None):
         
         if corDate1 != 'NA' and corDate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(9.1+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');#Removed as per clients requirement dated on 24012020
-            pdf.drawString(14.5*cm,(9.15+contactHeight)*cm,'CORPORATE FILINGS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');#Removed as per clients requirement dated on 24012020
+            pdf.drawString(14.5*cm,(11.8)*cm,'CORPORATE FILINGS');
             pdf.setFont('Vera', 9);
-            # pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'CORPORATE FILINGS ');
+            # pdf.drawString(14.25*cm,(8.45)*cm,'CORPORATE FILINGS ');
             if corDate1 !='NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(8.4+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(8.44+contactHeight)*cm,corDate1)
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(11.34)*cm,corDate1)
                 # print('len:',len(CHOdate1))
-                pdf.drawString(16.2*cm,(8.44+contactHeight)*cm,corpFile1)
+                pdf.drawString(16.2*cm,(11.34)*cm,corpFile1)
             if corDate2 !='NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.88+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(7.88+contactHeight)*cm,corDate2)
-                pdf.drawString(16.2*cm,(7.88+contactHeight)*cm,corpFile2)
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(10.78)*cm,corDate2)
+                pdf.drawString(16.2*cm,(10.78)*cm,corpFile2)
         
             # extraHeight=2
         
         elif corDate1 != 'NA' and corDate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(9.1+contactHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             
-            # pdf.drawString(14.5*cm,(8.95+contactHeight)*cm,'CRIMINAL HISTORY');
-            pdf.drawString(14.5*cm,(9.15+contactHeight)*cm,'CORPORATE FILINGS');
+            # pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
+            pdf.drawString(14.5*cm,(11.8)*cm,'CORPORATE FILINGS');
             pdf.setFont('Vera', 9);
-            # pdf.drawString(14.25*cm,(8.45+contactHeight)*cm,'CORPORATE FILINGS');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(8.4+contactHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(14.25*cm,(8.45)*cm,'CORPORATE FILINGS');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(8.44+contactHeight)*cm,corDate1)
-            pdf.drawString(16.2*cm,(8.44+contactHeight)*cm,corpFile1)
+            pdf.drawString(14.25*cm,(11.34)*cm,corDate1)
+            pdf.drawString(16.2*cm,(11.34)*cm,corpFile1)
         
+        rightSpacing = 0
+        if corDate1 == 'NA' and corDate2 == 'NA':
+            corpHght = 2
+        else:
+            corpHght = 0
         
+        rightSpacing = corpHght
         if BRFdate1 != 'NA' and BRFdate2 != 'NA':
             # contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(7.15+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(7.2+contactHeight+crimeHeight)*cm,'POSSIBLE BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(10+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(10+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            # pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
-            pdf.drawString(14.25*cm,(6.6+contactHeight+crimeHeight)*cm,'Year');
+            # pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(9.5+rightSpacing)*cm,'Year');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(6+contactHeight+crimeHeight)*cm,BRFdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(9+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(9+rightSpacing)*cm,BRFdate1)
             # if BROdate1 != 'NA':
-                # pdf.drawString(15.3*cm,(6+contactHeight+crimeHeight)*cm,BROdate1)
+                # pdf.drawString(15.3*cm,(6)*cm,BROdate1)
             
             if BRFdate2 != 'NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(5.4+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(5.4+contactHeight+crimeHeight)*cm,BRFdate2)
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(8.5+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(8.5+rightSpacing)*cm,BRFdate2)
             # if BROdate2 != 'NA':
-                # pdf.drawString(15.3*cm,(5.4+contactHeight+crimeHeight)*cm,BROdate2)
+                # pdf.drawString(15.3*cm,(5.4)*cm,BROdate2)
         elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
             # print('BRFdate2',BRFdate2)
             contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(6.15+contactHeight+crimeHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(6.2+contactHeight+crimeHeight)*cm,'POSSIBLE BANKRUPTCIES');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(10+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(10+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
             pdf.setFont('Vera', 9);      
-            # pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,'Filing Date   Filing Status');
-            pdf.drawString(14.25*cm,(5.6+contactHeight+crimeHeight)*cm,'Year');
+            # pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
+            pdf.drawString(14.25*cm,(9.5+rightSpacing)*cm,'Year');
             
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(5+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(5+contactHeight+crimeHeight)*cm,BRFdate1)
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(9+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(9+rightSpacing)*cm,BRFdate1)
             # if BROdate1 != 'NA':
-                # pdf.drawString(15.3*cm,(5+contactHeight+crimeHeight)*cm,BROdate1)
+                # pdf.drawString(15.3*cm,(5)*cm,BROdate1)
             
-            # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.4+contactHeight+crimeHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawString(14.25*cm,(4.4+contactHeight+crimeHeight)*cm,BRFdate2)
-        bankHeight=bankHeight+1;    
+            # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.4)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(14.25*cm,(4.4)*cm,BRFdate2)
+        if BRFdate1 == 'NA' and BRFdate1 == 'NA':
+            bankHght = 2
+        else:
+            bankHght = 0   
+        rightSpacing = corpHght + bankHght
+        print('rightSpacing',rightSpacing)
         if EVFdate1 != 'NA' and EVFdate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.5+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(3.55+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(7.8+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(7.8+rightSpacing)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawString(14.25*cm,(2.95+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date   Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
+            pdf.drawString(14.25*cm,(7.3+rightSpacing)*cm,'Filing Date   Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.8+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(6.8+rightSpacing)*cm,EVFdate1)
             
             if EVOdate1 !='NA':
-                pdf.drawString(16.4*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+                pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
             
             if EVFdate2 !='NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(1.85+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(1.85+contactHeight+crimeHeight+bankHeight)*cm,EVFdate2)
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(6.3+rightSpacing)*cm,EVFdate2)
             if EVOdate2 !='NA':
-                pdf.drawString(16.2*cm,(1.85+contactHeight+crimeHeight+bankHeight)*cm,EVOdate2)
+                pdf.drawString(16.3*cm,(6.3+rightSpacing)*cm,EVOdate2)
             
         elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(3.5+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawCentredString(15.65*cm,(3.5+contactHeight+crimeHeight+bankHeight)*cm,'EVICTIONS');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(7.8+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(7.8+rightSpacing)*cm,'EVICTIONS');
             pdf.setFont('Vera', 9);
-            pdf.drawCentredString(16.1*cm,(2.95+contactHeight+crimeHeight+bankHeight)*cm,'Filing Date     Filing Type');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(7.3+rightSpacing)*cm,'Filing Date   Filing Type');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.8+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(6.8+rightSpacing)*cm,EVFdate1)
             
-            
-            pdf.drawString(14.25*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,EVFdate1)
             if EVOdate1 !='NA':
-                pdf.drawString(16.2*cm,(2.45+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+                pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
+            if EVOdate1 !='NA':
+                pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
         pdf.setFont('Vera', 12);    
         
+        if EVFdate1 == 'NA' and EVFdate2 == 'NA':
+            evicHght = 2
+        else:
+            evicHght = 0   
+        rightSpacing = corpHght + bankHght + evicHght
         
         #####JUDGEMENTS###########
         if judments !='NA':
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(1+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(1+contactHeight+crimeHeight+bankHeight)*cm,'POSSIBLE JUDGMENTS');
-            pdf.setFont('Vera', 8);
-            # pdf.drawString(14.5*cm,(0.65+contactHeight+crimeHeight+bankHeight)*cm,'(OVER $1,000 in past 15 Years)');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.6+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(5.6+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
+            
+            # pdf.drawString(14.5*cm,(0.65)*cm,'(OVER $1,000 in past 15 Years)');
             pdf.setFont('Vera', 11);
            
             if judments == 'Yes' or judments == 'yes':
-                pdf.drawImage('/home/pdfImages/yes.png',14*cm,(0.005+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawImage('/home/pdfImages/yes.png',14*cm,(4.8+rightSpacing)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
             else:
-                pdf.drawImage('/home/pdfImages/no.png',14*cm,(0.005+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/yes.png',14.75*cm,(-0.40+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False);
-            pdf.drawString(14.75*cm,(0.1+contactHeight+crimeHeight+bankHeight)*cm,judments)
-            # pdf.drawString(16.2*cm,(1.95+contactHeight+crimeHeight+bankHeight)*cm,EVOdate1)
+                pdf.drawImage('/home/pdfImages/no.png',14*cm,(4.8+rightSpacing)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawImage('/home/pdfImages/yes.png',14.75*cm,(-0.40)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False);
+            pdf.drawString(14.75*cm,(5+rightSpacing)*cm,judments)
+            # pdf.drawString(16.2*cm,(1.95)*cm,EVOdate1)
          
-            # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(-0.80+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawString(14.25*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVFdate2)
-            # pdf.drawString(16.2*cm,(1.35+contactHeight+crimeHeight+bankHeight)*cm,EVOdate2)
+            # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(-0.80)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            # pdf.drawString(14.25*cm,(1.35)*cm,EVFdate2)
+            # pdf.drawString(16.2*cm,(1.35)*cm,EVOdate2)
             
         if len(licences) == 0:
             licenLen=2
         else:
             licenLen=0
-        bankHeight=bankHeight-0.35
+        
         if len(licences) != 0:
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(-0.55+contactHeight+crimeHeight+bankHeight)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.5*cm,(-0.5+contactHeight+crimeHeight+bankHeight)*cm,'LICENSES');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(-0.9+contactHeight+crimeHeight+bankHeight)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(4.2+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
             if licence1 !='NA':
-                pdf.drawString(14.25*cm,(-0.9+contactHeight+crimeHeight+bankHeight)*cm,licence1)
+                pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
             if licence2 !='NA':
-                pdf.drawString(14.25*cm,(-1.35+contactHeight+crimeHeight+bankHeight)*cm,licence2)
+                pdf.drawString(14.25*cm,(3.2+rightSpacing)*cm,licence2)
             if licence3 !='NA':
-                pdf.drawString(14.25*cm,(-1.75+contactHeight+crimeHeight+bankHeight)*cm,licence3)
+                pdf.drawString(14.25*cm,(2.7+rightSpacing)*cm,licence3)
         # print('len(licences)',len(licences))
         
         if len(licences) == 0:
             licenHt=1.5
         else:
             licenHt=0
+        rightSpacing = corpHght + bankHght + evicHght + licenHt
         if profLicence != 'NA':
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(-2.+contactHeight+crimeHeight+bankHeight+licenLen)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(14.25*cm,(-2.25+contactHeight+crimeHeight+bankHeight+licenHt)*cm,"Professional Licence:")
+            
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
             profLic = []
             pdf.setFillColorRGB(0,0,0)
             raw_addr = profLicence.title()
@@ -5212,15 +5231,15 @@ def pdf_gen(request,userId=None):
             # address = '<link href="' + raw_addr + '">' + address + '</link>'
             profLic.append(Paragraph('<font color="white">'+address+'</font>',styleN))
             
-            f = Frame(14.1*cm, (-3.9+contactHeight+crimeHeight+bankHeight+licenHt)*cm, 12*cm, 1.8*cm, showBoundary=0)
+            f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
             f.addFromList(profLic,pdf)
             pdf.setFillColorRGB(0,0,0)
             
-            # pdf.drawString(14.25*cm,(-1.55+contactHeight+crimeHeight+bankHeight)*cm,'Professional Licences: '+profLicence)
+            # pdf.drawString(14.25*cm,(-1.55)*cm,'Professional Licences: '+profLicence)
             
             # raw_addr = licence_det
             # licence_det = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[56:]
-            # pdf.drawString(14.25*cm,(-1.85+contactHeight+crimeHeight+bankHeight)*cm,licence_det)
+            # pdf.drawString(14.25*cm,(-1.85)*cm,licence_det)
            
         pdf.showPage()
         pdf.save()
