@@ -3174,12 +3174,7 @@ def pdf_gen(request,userId=None):
                 # print('homeHeight',homeHeight)
         else:
             homeHeight=0
-            
-        # if Education =='NA':
-            # qualHeight=3
-        # else:
-            # qualHeight=0
-        # homeHeight+= qualHeight   
+          
         if spouse_name == 'NA':
             vehHeight=7.6+homeHeight
         else:
@@ -4659,7 +4654,7 @@ def pdf_gen(request,userId=None):
         # vehicleHeight = 0
         if Input_Pop != 'NA' or Median_HouseHold_Val != 'NA' or medianHouseValue !='NA':
             pdf.setFont('Vera', 12);
-            pdf.roundRect(1*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
+            pdf.roundRect(0.75*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
         if Input_Pop != 'NA':
             # pdf.line(1.3*cm,(2.9)*cm,11.2*cm,(2.9)*cm)
             
@@ -4705,8 +4700,47 @@ def pdf_gen(request,userId=None):
             Per_LinkedIn=Per_LinkedIn
             linkedinLogo='/home/pdfImages/Linkedin.png'
         
+        if Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+            socialHght = 6
+        elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            socialHght = 3.5
+        elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            socialHght = 3.5
+        elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            socialHght = 3.5
+        elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            socialHght = 3.5
+            
+        elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            socialHght = 2.5
+        elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            socialHght = 2.5
+        elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            socialHght = 2.5
+        elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            socialHght = 2.5
+        elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            socialHght = 2.5
+        elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            socialHght = 2.5
+            
+        elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            socialHght = 1.25
+        elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            socialHght = 1.25
+        elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            socialHght = 1.25
+        elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            socialHght = 1.25
+        
+            
+        else:
+            socialHght = 0
         
         
+        rightSpacing = socialHght
+        print('rightSpacing',rightSpacing)
+        pdf.setFillColorRGB(255,255,255)
         if Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA':
             
             pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
@@ -4743,7 +4777,7 @@ def pdf_gen(request,userId=None):
             f.addFromList(gmail_url,pdf)
             
             pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
-            pdf.setFillColorRGB(255,255,255)
+            
             pdf.drawString(14.75*cm,13*cm,Per_Tel)
     
         if Per_facebook != 'NA' or Per_LinkedIn != 'NA' or per_Email != 'NA' or Per_Tel != 'NA': 
@@ -4759,6 +4793,16 @@ def pdf_gen(request,userId=None):
 
                 f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
                 f.addFromList(fb_url,pdf)
+            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+                pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                ld_url = []
+                raw_addr = Per_LinkedIn
+                address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                address = '<link href="' + raw_addr + '">' + address + '</link>'
+                ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+
+                f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                f.addFromList(ld_url,pdf)
                  
             elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
                 
@@ -5057,45 +5101,52 @@ def pdf_gen(request,userId=None):
         
         if corDate1 != 'NA' and corDate2 != 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             # pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(7)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             # pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');#Removed as per clients requirement dated on 24012020
-            pdf.drawString(14.5*cm,(11.8)*cm,'CORPORATE FILINGS');
+            pdf.drawString(14.5*cm,(11.8+rightSpacing)*cm,'CORPORATE FILINGS');
             pdf.setFont('Vera', 9);
             # pdf.drawString(14.25*cm,(8.45)*cm,'CORPORATE FILINGS ');
             if corDate1 !='NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(11.34)*cm,corDate1)
+                pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                 # print('len:',len(CHOdate1))
-                pdf.drawString(16.2*cm,(11.34)*cm,corpFile1)
+                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
             if corDate2 !='NA':
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(10.78)*cm,corDate2)
-                pdf.drawString(16.2*cm,(10.78)*cm,corpFile2)
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
+                pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
         
             # extraHeight=2
         
         elif corDate1 != 'NA' and corDate2 == 'NA':
             pdf.setFont('Vera', 12);
-            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.8+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
             
             # pdf.drawString(14.5*cm,(8.95)*cm,'CRIMINAL HISTORY');
-            pdf.drawString(14.5*cm,(11.8)*cm,'CORPORATE FILINGS');
+            pdf.drawString(14.5*cm,(11.8+rightSpacing)*cm,'CORPORATE FILINGS');
             pdf.setFont('Vera', 9);
             # pdf.drawString(14.25*cm,(8.45)*cm,'CORPORATE FILINGS');
-            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
-            pdf.drawString(14.25*cm,(11.34)*cm,corDate1)
-            pdf.drawString(16.2*cm,(11.34)*cm,corpFile1)
+            pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
+            pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
         
         rightSpacing = 0
         if corDate1 == 'NA' and corDate2 == 'NA':
             corpHght = 2
+        elif corDate1 != 'NA' and corDate2 == 'NA':
+            corpHght = 0.6
+            
         else:
             corpHght = 0
         
-        rightSpacing = corpHght
+        rightSpacing = socialHght + corpHght
+        print('corDate1',corDate1)
+        print('corDate2',corDate2)
+        print('corpHght',corpHght)
+        print('rightSpacing2',rightSpacing)
         if BRFdate1 != 'NA' and BRFdate2 != 'NA':
             # contactHeight=contactHeight+0.85
             pdf.setFont('Vera', 12);
@@ -5132,12 +5183,15 @@ def pdf_gen(request,userId=None):
             
             # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.4)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             # pdf.drawString(14.25*cm,(4.4)*cm,BRFdate2)
-        if BRFdate1 == 'NA' and BRFdate1 == 'NA':
+        if BRFdate1 == 'NA' and BRFdate2 == 'NA':
             bankHght = 2
+        elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
+            bankHght = 0.6
+            
         else:
             bankHght = 0   
-        rightSpacing = corpHght + bankHght
-        print('rightSpacing',rightSpacing)
+        rightSpacing = socialHght + corpHght + bankHght
+        print('rightSpacing3',rightSpacing)
         if EVFdate1 != 'NA' and EVFdate2 != 'NA':
             pdf.setFont('Vera', 12);
             pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(7.8+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
@@ -5173,10 +5227,13 @@ def pdf_gen(request,userId=None):
         
         if EVFdate1 == 'NA' and EVFdate2 == 'NA':
             evicHght = 2
+        elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
+            evicHght = 0.5
+            
         else:
             evicHght = 0   
-        rightSpacing = corpHght + bankHght + evicHght
-        
+        rightSpacing = socialHght + corpHght + bankHght + evicHght
+        print('rightSpacing4',rightSpacing)
         #####JUDGEMENTS###########
         if judments !='NA':
             pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(5.6+rightSpacing)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
@@ -5219,7 +5276,8 @@ def pdf_gen(request,userId=None):
             licenHt=1.5
         else:
             licenHt=0
-        rightSpacing = corpHght + bankHght + evicHght + licenHt
+        rightSpacing = socialHght + corpHght + bankHght + evicHght + licenHt
+        print('rightSpacing5',rightSpacing)
         if profLicence != 'NA':
             
             pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
