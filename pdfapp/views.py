@@ -3282,16 +3282,7 @@ def pdf_gen(request,userId=None):
                 jobFont=14
                 
         ##################################JOBS DISPLAY #############################   
-        # print('JOB1',JOB1)
-        # print('JOB2',JOB2)
-        # print('comp1',comp1)
-        # print('comp2',comp2)
-        # print('prevJOB1',prevJOB1)
-        # print('prevJOB2',prevJOB2)
-        
-        # print('prevJOB2',prevJOB2)
-        # print('prevComp1',prevComp1)
-        # print('prevComp2',prevComp2)
+       
         
         if JOB2 =='NA' and comp2 != 'NA':
             job2Height=0.5
@@ -4315,7 +4306,11 @@ def pdf_gen(request,userId=None):
                 pdf.drawString(5.6*cm,(22.7)*cm,Address);
                 pdf.drawString(5.6*cm,(22.40)*cm,city+', '+state.title()+' '+pincode);
                 if homeEqu1 != '$0':
-                    pdf.drawString(5.6*cm,(22.03)*cm,"ESTIMATED HOME EQUITY: "+homeEqu1);
+                    
+                    pdf.drawString(5.6*cm,(22.03)*cm,"ESTIMATED HOME EQUITY: ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.6*cm,(22.03)*cm,homeEqu1);
+                    pdf.setFont('Vera', 8);
                 if homeEqu1 == '$0':
                     Equiheight = 0.35;
                 else:
@@ -4323,7 +4318,11 @@ def pdf_gen(request,userId=None):
                 # pdf.drawCentredString(7.7*cm,(21.45)*cm,Esti_Home_Equi);
                 # print('homeValu1',homeValu1)
                 if homeValu1 != '$0':
-                    pdf.drawString(5.6*cm,(21.63+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE: "+homeValu1);
+                    
+                    pdf.drawString(5.6*cm,(21.63+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE: ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.4*cm,(21.63+homeHeight+Equiheight)*cm,homeValu1);
+                    pdf.setFont('Vera', 8);
                 
                 # pdf.drawCentredString(7.7*cm,(20.55)*cm,Home_Val);
                 pdf.setFillColorRGB(0,0,1)
@@ -4341,13 +4340,21 @@ def pdf_gen(request,userId=None):
                 
                 # if homeValu2 == '0' or homeValu2 != '$0':
                 if homeEqu2 != '$0':
-                    pdf.drawString(5.6*cm,(20.53)*cm,"ESTIMATED HOME EQUITY: "+homeEqu2);
+                    
+                    pdf.drawString(5.6*cm,(20.53)*cm,"ESTIMATED HOME EQUITY: ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.6*cm,(20.53)*cm,homeEqu2);
+                    pdf.setFont('Vera', 8);
                 if homeEqu2 == '$0':
                     Equiheight = 0.35;
                 else:
                     Equiheight = 0;
                 if homeValu2 != '$0':
-                    pdf.drawString(5.6*cm,(20.13+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE:  "+homeValu2);
+                    
+                    pdf.drawString(5.6*cm,(20.13+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE:  ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.4*cm,(20.13+homeHeight+Equiheight)*cm,homeValu2);
+                    pdf.setFont('Vera', 8);
                 pdf.setFillColorRGB(0,0,1)
                 pdf.drawString(5.6*cm,(20.05)*cm,'_______________________________')
                 pdf.setFillColorRGB(0,0,0)
@@ -4362,13 +4369,22 @@ def pdf_gen(request,userId=None):
                 pdf.drawString(5.6*cm,(19.40)*cm,city3+', '+state3.title()+' '+pincode3);
                 if homeEqu3 != '$0':
                 # if homeEqu3 != 0:
-                    pdf.drawString(5.6*cm,(19.03)*cm,"ESTIMATED HOME EQUITY: "+homeEqu3);
+                    
+                    pdf.drawString(5.6*cm,(19.03)*cm,"ESTIMATED HOME EQUITY: ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.6*cm,(19.03)*cm,homeEqu3);
+                    
+                    pdf.setFont('Vera', 8);
                 if homeEqu3 == '$0':
                     Equiheight = 0.35;
                 else:
                     Equiheight = 0;
                 if homeValu3 != '$0':
-                    pdf.drawString(5.6*cm,(18.63+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE:  "+homeValu3);
+                    
+                    pdf.drawString(5.6*cm,(18.63+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE:  ");
+                    pdf.setFont('VeraBd', 8);
+                    pdf.drawString(9.4*cm,(18.63+homeHeight+Equiheight)*cm,homeValu3);
+                    pdf.setFont('Vera', 8);
             
        
         ####DIVORCED IMG
@@ -4477,7 +4493,7 @@ def pdf_gen(request,userId=None):
         else:
             depLinkHt=0
         
-      #######################################################
+      ##################################################LEFT 2nd HALF ##############################################
         
         if spouse_name != 'NA' :
             if relationStatus != 'NA' : 
@@ -4486,8 +4502,6 @@ def pdf_gen(request,userId=None):
                 pdf.drawString(7*cm,(14.7+qualiHeight)*cm,'['+relationStatus+']');
                 pdf.setFillColorRGB(0,0,00)
             pdf.drawImage('/home/pdfImages/family.png',0.75*cm,(14.5+qualiHeight)*cm,9.5*cm,0.65*cm,preserveAspectRatio=False, mask='auto');
-             # pdf.drawImage('/home/pdfImages/Male.png',11.7*cm,18.7*cm,1.75*cm,1.75*cm,preserveAspectRatio=False, mask='auto');
-            # pdf.drawImage('/home/pdfImages/spouse.png',1.5*cm,(12.6)*cm,3.25*cm,0.25*cm,preserveAspectRatio=False, mask='auto');
             pdf.drawImage('/home/pdfImages/business.png',1.5*cm,(13.25+qualiHeight)*cm,0.5*cm,1*cm,preserveAspectRatio=False, mask='auto');
          
             pdf.setFont('VeraBd', 12);
@@ -4499,9 +4513,6 @@ def pdf_gen(request,userId=None):
             if Spouse_Age != 'NA':
                 pdf.setFont('Vera', 9);
                 pdf.drawString(2.3*cm,(13.3+qualiHeight)*cm,Spouse_Age);
-            
-            # if spUni1 == 'NA' and spedu1 == 'NA':
-                # homeHeight = homeHeight+1
             
             if spUni1 !="NA":
                 pdf.drawImage('/home/pdfImages/edu.png',1.25*cm,(12.3+qualiHeight)*cm,0.9*cm,0.7*cm,preserveAspectRatio=False, mask='auto');
@@ -4603,84 +4614,144 @@ def pdf_gen(request,userId=None):
                 # if spBankDet1 != 'NA':
                     # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
    
-        
-        
-        # print('qualiHeight',qualiHeight)
-        # print('spEduHt',spEduHt)
-        # print('spWorkHt',spWorkHt)
-        # print('depSalHt',depSalHt)
-        # print('depFbHt',depFbHt)
-        # print('depLinkHt',depLinkHt)
-         ############################# About Family ################################
+        ############################# About Family ################################
          
          
         ###########################VEHICLES DETAILS#################################
-        if spBank1 == 'NA' and spBankDet1 == 'NA':
-            spBankHt = 1.5
-        else: 
-            spBankHt = 0
-        spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
-        # spouseSpacing = 0;
-        
-        if vehicle1 !='NA' or vehicle2 !='NA' or vehicle2 !='NA':
-            pdf.line(1.3*cm,(6+spouseHeight+spBankHt)*cm,11.2*cm,(6+spouseHeight+spBankHt)*cm)
-            # pdf.drawImage('/home/pdfImages/registered_vehicle.png',1.5*cm,(3.4)*cm,5.5*cm,0.4*cm,preserveAspectRatio=False);
-            pdf.setFont('VeraBd', 12);
-            pdf.drawCentredString(4*cm,(5.6+spouseHeight+spBankHt)*cm,"REGISTERED Vehicle(s)");
-            pdf.setFont('Vera', 10);
-        if vehicle1 !='NA':
-            pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.9+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(2*cm,(4.9+spouseHeight+spBankHt)*cm,vehicle1);
-        if vehicle2 !='NA':
-            pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.2+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(2*cm,(4.2+spouseHeight+spBankHt)*cm,vehicle2);
-        
-        if vehicle3 !='NA':
-            pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(3.5+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(2*cm,(3.45+spouseHeight+spBankHt)*cm,vehicle3);
-        
-        
-        if selectedCity == city:
-            cityData = city+', '+state.title()
-        elif selectedCity == city2:
-            cityData = city2+', '+state2.title()
-        elif selectedCity == city2:
-            cityData = city3+', '+state3.title()
-        elif selectedCity == 'NA':
-            cityData = city+', '+state.title()
-        else:
-            cityData = city+', '+state.title()
-        # print('Input_Pop',Input_Pop) 
-        # vehicleHeight = 0
-        if Input_Pop != 'NA' or Median_HouseHold_Val != 'NA' or medianHouseValue !='NA':
-            pdf.setFont('Vera', 12);
-            pdf.roundRect(0.75*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
-        if Input_Pop != 'NA':
-            # pdf.line(1.3*cm,(2.9)*cm,11.2*cm,(2.9)*cm)
+            if spBank1 == 'NA' and spBankDet1 == 'NA':
+                spBankHt = 1.5
+            else: 
+                spBankHt = 0
+            spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
+            # spouseSpacing = 0;
             
-            pdf.setFont('VeraBd', 10);
-            # pdf.drawCentredString((12.5/2)*cm,28.2*cm,FullName.upper());
-            pdf.drawCentredString((13.5/2)*cm,(2.4+spouseHeight+vehicleHeight+spBankHt)*cm,"City:  "+cityData);
-            pdf.drawImage('/home/pdfImages/dot.png',2.25*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.setFont('Vera', 8);
-            pdf.drawString((1.5)*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"POPULATION");
-            pdf.setFont('Vera', 8);
-            pdf.drawCentredString((4.7/2)*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Input_Pop);
+            if vehicle1 !='NA' or vehicle2 !='NA' or vehicle2 !='NA':
+                pdf.line(1.3*cm,(6+spouseHeight+spBankHt)*cm,11.2*cm,(6+spouseHeight+spBankHt)*cm)
+                # pdf.drawImage('/home/pdfImages/registered_vehicle.png',1.5*cm,(3.4)*cm,5.5*cm,0.4*cm,preserveAspectRatio=False);
+                pdf.setFont('VeraBd', 12);
+                pdf.drawCentredString(4*cm,(5.6+spouseHeight+spBankHt)*cm,"REGISTERED Vehicle(s)");
+                pdf.setFont('Vera', 10);
+            if vehicle1 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.9+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(4.9+spouseHeight+spBankHt)*cm,vehicle1);
+            if vehicle2 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.2+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(4.2+spouseHeight+spBankHt)*cm,vehicle2);
+            
+            if vehicle3 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(3.5+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(3.45+spouseHeight+spBankHt)*cm,vehicle3);
+            
+            
+            if selectedCity == city:
+                cityData = city+', '+state.title()
+            elif selectedCity == city2:
+                cityData = city2+', '+state2.title()
+            elif selectedCity == city2:
+                cityData = city3+', '+state3.title()
+            elif selectedCity == 'NA':
+                cityData = city+', '+state.title()
+            else:
+                cityData = city+', '+state.title()
+            # print('Input_Pop',Input_Pop) 
+            # vehicleHeight = 0
+            if Input_Pop != 'NA' or Median_HouseHold_Val != 'NA' or medianHouseValue !='NA':
+                pdf.setFont('Vera', 12);
+                pdf.roundRect(0.75*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
+            if Input_Pop != 'NA':
+                # pdf.line(1.3*cm,(2.9)*cm,11.2*cm,(2.9)*cm)
+                
+                pdf.setFont('VeraBd', 10);
+                # pdf.drawCentredString((12.5/2)*cm,28.2*cm,FullName.upper());
+                pdf.drawCentredString((13.5/2)*cm,(2.4+spouseHeight+vehicleHeight+spBankHt)*cm,"City:  "+cityData);
+                pdf.drawImage('/home/pdfImages/dot.png',2.25*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.setFont('Vera', 8);
+                pdf.drawString((1.5)*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"POPULATION");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString((4.7/2)*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Input_Pop);
 
-            pdf.setLineWidth(0.5);
+                pdf.setLineWidth(0.5);
+                
+            if Median_HouseHold_Val != 'NA':
+                pdf.drawImage('/home/pdfImages/dot.png',6*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(3.7*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOUSEHOLD INCOME");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString(6*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Median_HouseHold_Val);
+                
+            if medianHouseValue != 'NA':
+                pdf.drawImage('/home/pdfImages/dot.png',10*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(8.5*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOME VALUE");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
             
-        if Median_HouseHold_Val != 'NA':
-            pdf.drawImage('/home/pdfImages/dot.png',6*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(3.7*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOUSEHOLD INCOME");
-            pdf.setFont('Vera', 8);
-            pdf.drawCentredString(6*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Median_HouseHold_Val);
+        else:
+            if spBank1 == 'NA' and spBankDet1 == 'NA':
+                spBankHt = 1.5
+            else: 
+                spBankHt = 0
+            spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
+            # spouseSpacing = 0;
             
-        if medianHouseValue != 'NA':
-            pdf.drawImage('/home/pdfImages/dot.png',10*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-            pdf.drawString(8.5*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOME VALUE");
-            pdf.setFont('Vera', 8);
-            pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
+            if vehicle1 !='NA' or vehicle2 !='NA' or vehicle2 !='NA':
+                pdf.line(1.3*cm,(6+spouseHeight+spBankHt)*cm,11.2*cm,(6+spouseHeight+spBankHt)*cm)
+                # pdf.drawImage('/home/pdfImages/registered_vehicle.png',1.5*cm,(3.4)*cm,5.5*cm,0.4*cm,preserveAspectRatio=False);
+                pdf.setFont('VeraBd', 12);
+                pdf.drawCentredString(4*cm,(5.6+spouseHeight+spBankHt)*cm,"REGISTERED Vehicle(s)");
+                pdf.setFont('Vera', 10);
+            if vehicle1 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.9+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(4.9+spouseHeight+spBankHt)*cm,vehicle1);
+            if vehicle2 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.2+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(4.2+spouseHeight+spBankHt)*cm,vehicle2);
             
+            if vehicle3 !='NA':
+                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(3.5+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(2*cm,(3.45+spouseHeight+spBankHt)*cm,vehicle3);
+            
+            
+            if selectedCity == city:
+                cityData = city+', '+state.title()
+            elif selectedCity == city2:
+                cityData = city2+', '+state2.title()
+            elif selectedCity == city2:
+                cityData = city3+', '+state3.title()
+            elif selectedCity == 'NA':
+                cityData = city+', '+state.title()
+            else:
+                cityData = city+', '+state.title()
+            # print('Input_Pop',Input_Pop) 
+            # vehicleHeight = 0
+            if Input_Pop != 'NA' or Median_HouseHold_Val != 'NA' or medianHouseValue !='NA':
+                pdf.setFont('Vera', 12);
+                pdf.roundRect(0.75*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
+            if Input_Pop != 'NA':
+                # pdf.line(1.3*cm,(2.9)*cm,11.2*cm,(2.9)*cm)
+                
+                pdf.setFont('VeraBd', 10);
+                # pdf.drawCentredString((12.5/2)*cm,28.2*cm,FullName.upper());
+                pdf.drawCentredString((13.5/2)*cm,(2.4+spouseHeight+vehicleHeight+spBankHt)*cm,"City:  "+cityData);
+                pdf.drawImage('/home/pdfImages/dot.png',2.25*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.setFont('Vera', 8);
+                pdf.drawString((1.5)*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"POPULATION");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString((4.7/2)*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Input_Pop);
+
+                pdf.setLineWidth(0.5);
+                
+            if Median_HouseHold_Val != 'NA':
+                pdf.drawImage('/home/pdfImages/dot.png',6*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(3.7*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOUSEHOLD INCOME");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString(6*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,Median_HouseHold_Val);
+                
+            if medianHouseValue != 'NA':
+                pdf.drawImage('/home/pdfImages/dot.png',10*cm,(1.75+spouseHeight+vehicleHeight+spBankHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(8.5*cm,(1.2+spouseHeight+vehicleHeight+spBankHt)*cm,"MEDIAN HOME VALUE");
+                pdf.setFont('Vera', 8);
+                pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
+            
+        
     
         ################################ Right_Template_Contents ##################################################
         pdf.setFont('Vera', 9);
