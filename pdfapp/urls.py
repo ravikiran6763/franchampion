@@ -17,4 +17,8 @@ urlpatterns = [
     url(r'^template3/', views.template3,name='template3'), 
     path('template3/', views.template3),
     
+    url(r'^template4/', views.template4,name='template4'), 
+    path('template4/', views.template4),
+    
+    
 ]
