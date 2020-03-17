@@ -13022,10 +13022,12 @@ def template4(request,userId=None):
                 socialHght = 0
             
             
-            rightSpacing = socialHght
+            rightSpacing = socialHght-1.2
             # print('rightSpacing',rightSpacing)
             pdf.setFillColorRGB(255,255,255)
-            if Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA':
+            Person_Website = "https://www.doctorquick.com/"
+            # Person_Website = "NA"
+            if Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
                 
                 pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
                 pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
@@ -13040,7 +13042,7 @@ def template4(request,userId=None):
                 
                 pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                 ld_url = []
-                # raw_addr2 = 'http://www.linked.com/Mimsy/hacks/adding-links-to-pdf/'
+                
                 raw_addr2 = Per_LinkedIn
                 address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
                 address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
@@ -13051,7 +13053,7 @@ def template4(request,userId=None):
                 
                 pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                 gmail_url = []
-                #raw_addr3 = 'http://www.linked.com/Mimsy/hacks/adding-links-to-pdf/'
+                
                 raw_addr3 = per_Email
                 address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
                 address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
@@ -13060,14 +13062,28 @@ def template4(request,userId=None):
                 f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
                 f.addFromList(gmail_url,pdf)
                 
+                
+                
                 pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                 
                 pdf.drawString(14.75*cm,13*cm,Per_Tel)
+                                
+                pdf.drawImage('/home/pdfImages/link.png',13.5*cm,11.45*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                website = []
+                raw_addr4 = Person_Website
+                address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                
+                f = Frame(14.5*cm, 10.8*cm, 6*cm, 1.8*cm, showBoundary=0)
+                f.addFromList(website,pdf)
         
-            if Per_facebook != 'NA' or Per_LinkedIn != 'NA' or per_Email != 'NA' or Per_Tel != 'NA': 
+        
+            if Per_facebook != 'NA' or Per_LinkedIn != 'NA' or per_Email != 'NA' or Per_Tel != 'NA' or Person_Website != 'NA': 
+                print('website')
                 pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
                 
-                if Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+                if Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     fb_url = []
                     raw_addr = Per_facebook
@@ -13077,7 +13093,7 @@ def template4(request,userId=None):
 
                     f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(fb_url,pdf)
-                elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+                elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                     pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     ld_url = []
                     raw_addr = Per_LinkedIn
@@ -13088,7 +13104,7 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(ld_url,pdf)
                      
-                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                     
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     fb_url = []
@@ -13111,7 +13127,7 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(ld_url,pdf)
 
-                elif Per_LinkedIn != 'NA' and Per_facebook != 'NA' and per_Email != 'NA' and Per_Tel == 'NA':
+                elif Per_LinkedIn != 'NA' and Per_facebook != 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                     
                     # pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
@@ -13147,7 +13163,7 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(gmail_url,pdf)
                     
-                elif per_Email != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and Per_Tel == 'NA':
+                elif per_Email != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                     
                     pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     
@@ -13160,13 +13176,13 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 15.4*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(gmail_url,pdf)
                     
-                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA':
+                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Person_Website == 'NA':
                     pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.6*cm,16.6*cm,Per_Tel)
                 
-                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA':
+                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Person_Website == 'NA':
                                           
                     pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     gmail_url = []
@@ -13182,7 +13198,7 @@ def template4(request,userId=None):
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.6*cm,15.4*cm,Per_Tel)
                   
-                elif Per_Tel == 'NA' and Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA':
+                elif Per_Tel == 'NA' and Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Person_Website == 'NA':
                     pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawImage(facebookLogo,13.5*cm,14.5*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawImage(linkedinLogo,13.5*cm,13*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
@@ -13206,7 +13222,7 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 12.5*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(ld_url,pdf)
 
-                elif Per_Tel == 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA':
+                elif Per_Tel == 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Person_Website == 'NA':
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     fb_url = []
                     raw_addr = Per_facebook
@@ -13228,7 +13244,7 @@ def template4(request,userId=None):
                     f = Frame(14.5*cm, 14.2*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(gmail_url,pdf)
                     
-                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA':
+                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Person_Website == 'NA':
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     fb_url = []
                     raw_addr = Per_facebook
@@ -13244,7 +13260,7 @@ def template4(request,userId=None):
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.6*cm,15.4*cm,Per_Tel)
                 
-                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA':
+                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Person_Website == 'NA':
                     
                     pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     ld_url = []
@@ -13261,7 +13277,7 @@ def template4(request,userId=None):
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.6*cm,15.4*cm,Per_Tel)
                    
-                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA':
+                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Person_Website == 'NA':
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     fb_url = []
                     raw_addr = Per_facebook
@@ -13288,7 +13304,7 @@ def template4(request,userId=None):
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.65*cm,14.25*cm,Per_Tel)
                 
-                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA':
+                elif Per_Tel != 'NA' and Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Person_Website == 'NA':
                 
                     pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     ld_url = []
@@ -13317,7 +13333,7 @@ def template4(request,userId=None):
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.7*cm,14.2*cm,Per_Tel)
                  
-                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA':
+                elif Per_Tel != 'NA' and Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Person_Website == 'NA':
                  
                     pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     
@@ -13345,41 +13361,289 @@ def template4(request,userId=None):
                     
                     pdf.setFillColorRGB(255,255,255)
                     pdf.drawString(14.75*cm,14.2*cm,Per_Tel)
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr2 = Per_LinkedIn
+                    address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+
+                    pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    gmail_url = []
+                    raw_addr3 = per_Email
+                    address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
+                    address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
+                    gmail_url.append(Paragraph('<font color="white">'+address3+'</font>',styleN))
+                    f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(gmail_url,pdf)
+
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,13*cm,Per_Tel)
+                
+                elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                    
+                    
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr2 = Per_LinkedIn
+                    address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+
+                    pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    gmail_url = []
+                    raw_addr3 = per_Email
+                    address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
+                    address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
+                    gmail_url.append(Paragraph('<font color="white">'+address3+'</font>',styleN))
+                    f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(gmail_url,pdf)
+
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,13*cm,Per_Tel)
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    gmail_url = []
+                    raw_addr3 = per_Email
+                    address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
+                    address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
+                    gmail_url.append(Paragraph('<font color="white">'+address3+'</font>',styleN))
+                    f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(gmail_url,pdf)
+
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,13*cm,Per_Tel)
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr2 = Per_LinkedIn
+                    address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                    
+
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,13*cm,Per_Tel)
+                        
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr2 = Per_LinkedIn
+                    address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    gmail_url = []
+                    raw_addr3 = per_Email
+                    address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
+                    address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
+                    gmail_url.append(Paragraph('<font color="white">'+address3+'</font>',styleN))
+                    f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(gmail_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 12*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,15.4*cm,Per_Tel)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website != 'NA':
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(facebookLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    fb_url = []
+                    raw_addr = Per_facebook
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    fb_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(fb_url,pdf)
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr2 = Per_LinkedIn
+                    address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                    
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                
+                elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
+                    print('Per_facebook',Per_facebook)
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr = Per_LinkedIn
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                    
+                    # pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    # ld_url = []
+                    # raw_addr2 = Per_LinkedIn
+                    # address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
+                    # address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
+                    # ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
+                    # f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    # f.addFromList(ld_url,pdf)
+                    
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,15.4*cm,Per_Tel)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                  
+
+
+
+                  
+
+                    # pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    # pdf.drawString(14.75*cm,13*cm,Per_Tel)
+            
+            
+                
+            
+            
             # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________') 
             
             contactHeight+=2.65 # comment it when hobbies are needed in the report
                
              ################### Removed as per client requirement dated on 24-01-2020 ########################
-             ################### Hobbies ########################
-            # if hobby1 != 'NA' and hobby2 !='NA':
-                # pdf.setFillColorRGB(255,255,255)
-                # pdf.setFont('Vera', 8);
-                # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
-                #pdf.drawImage('/home/pdfImages/Bullet.png',13.65*cm,(11.55)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.setFont('Vera', 12);
-                # pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.setFont('Vera', 8);
-                # pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
-                # pdf.drawString(14.6*cm,(10.05)*cm,hobby2)
-                # pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
-            # elif hobby1 != 'NA' and hobby2 =='NA':
-                # pdf.setFillColorRGB(255,255,255)
-                # pdf.setFont('Vera', 8);
-                # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________')
-                # pdf.drawImage('/home/pdfImages/design1/bullet.png',13.65*cm,(11.35)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.setFont('Vera', 12);
-                # pdf.drawCentredString(15.55*cm,(11.36)*cm,'HOBBIES');
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',14*cm,(10.6)*cm,0.4*cm,0.3*cm,preserveAspectRatio=False, mask='auto');
-               
-                # pdf.setFont('Vera', 8);
-                # pdf.drawString(14.6*cm,(10.65)*cm,hobby1)
-                
-                # pdf.drawString(13.7*cm,(9.7)*cm,'________________________________________________')
-           
-           
+          
             ################### Criminal History,Bankruptcies,Evictions ##########################
             
             
@@ -13426,11 +13690,8 @@ def template4(request,userId=None):
             else:
                 corpHght = 0
             
-            rightSpacing = socialHght + corpHght
-            # print('corDate1',corDate1)
-            # print('corDate2',corDate2)
-            # print('corpHght',corpHght)
-            # print('rightSpacing2',rightSpacing)
+            rightSpacing = socialHght + corpHght-1.2
+            
             if BRFdate1 != 'NA' and BRFdate2 != 'NA':
                 # contactHeight=contactHeight+0.85
                 pdf.setFont('Vera', 12);
@@ -13462,11 +13723,7 @@ def template4(request,userId=None):
                 
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(9+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(9+rightSpacing)*cm,BRFdate1)
-                # if BROdate1 != 'NA':
-                    # pdf.drawString(15.3*cm,(5)*cm,BROdate1)
                 
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(4.4)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawString(14.25*cm,(4.4)*cm,BRFdate2)
             if BRFdate1 == 'NA' and BRFdate2 == 'NA':
                 bankHght = 2
             elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
@@ -13474,7 +13731,7 @@ def template4(request,userId=None):
                 
             else:
                 bankHght = 0   
-            rightSpacing = socialHght + corpHght + bankHght
+            rightSpacing = socialHght + corpHght + bankHght-1.2
             # print('rightSpacing3',rightSpacing)
             if EVFdate1 != 'NA' and EVFdate2 != 'NA':
                 pdf.setFont('Vera', 12);
@@ -13516,7 +13773,7 @@ def template4(request,userId=None):
                 
             else:
                 evicHght = 0   
-            rightSpacing = socialHght + corpHght + bankHght + evicHght
+            rightSpacing = socialHght + corpHght + bankHght + evicHght-1.2
             # print('rightSpacing4',rightSpacing)
             #####JUDGEMENTS###########
             if judments !='NA':
@@ -13532,11 +13789,7 @@ def template4(request,userId=None):
                     pdf.drawImage('/home/pdfImages/no.png',14*cm,(4.8+rightSpacing)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
                 # pdf.drawImage('/home/pdfImages/yes.png',14.75*cm,(-0.40)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False);
                 pdf.drawString(14.75*cm,(5+rightSpacing)*cm,judments)
-                # pdf.drawString(16.2*cm,(1.95)*cm,EVOdate1)
-             
-                # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(-0.80)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawString(14.25*cm,(1.35)*cm,EVFdate2)
-                # pdf.drawString(16.2*cm,(1.35)*cm,EVOdate2)
+               
                 
             if len(licences) == 0:
                 licenLen=2
@@ -13572,7 +13825,7 @@ def template4(request,userId=None):
                 
                 else:
                     licenHt=0
-                rightSpacing = socialHght + corpHght + bankHght + evicHght + licenHt
+                rightSpacing = socialHght + corpHght + bankHght + evicHght + licenHt-1
                 # print('rightSpacing5',rightSpacing)
                 if profLicence != 'NA':
                     if len(licences) == 0:
