@@ -61,6 +61,8 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 from datetime import date
+import datetime
+from reportlab.lib.styles import ParagraphStyle
 
 styles = getSampleStyleSheet()
 styleN = styles['Normal']
@@ -69,11 +71,12 @@ pdfmetrics.registerFont(TTFont('Vera', 'Vera.ttf'))
 pdfmetrics.registerFont(TTFont('VeraBd', 'VeraBd.ttf'))
 
 today = date.today()
-
-# Textual month, day and year	
-# d2 = today.strftime("%B %d, %Y %H:%M:%S")
-d2 = today.strftime("%B %d, %Y")
-print("d2 =", d2)
+mon = str(today.month)
+day = str(today.day)
+year = str(today.year)
+d2 = mon+'/'+day+'/'+year[-2:]
+# disclaimer = ""
+# print(disclaimer)
 
 def custom_format_currency(value, currency, locale):
     value = decimal.Decimal(value)
@@ -1504,9 +1507,9 @@ def template1(request,userId=None):
             if spBank1 != 'NA' :
                 
                 pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
                 # pdf.drawImage('/home/pdfImages/leftBullet.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(2.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
                 pdf.setFont('Vera', 9);      
                 # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
                 pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
@@ -1524,7 +1527,7 @@ def template1(request,userId=None):
             if spBank1 == 'NA' and spBankDet1 == 'NA':
                 spBankHt = 1.5
             else: 
-                spBankHt = 0
+                spBankHt = 0.65
             spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
             # spouseSpacing = 0;
             
@@ -1676,7 +1679,7 @@ def template1(request,userId=None):
                 pdf.setFont('Vera', 8);
                 pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
             
-        
+        pdf.drawImage('/home/pdfImages/Disclaimer.png',0.06*cm,(0.05)*cm,21*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
     
         ################################ Right_Template_Contents ##################################################
         pdf.setFont('Vera', 9);
@@ -2271,7 +2274,7 @@ def template1(request,userId=None):
             
         pdf.setFillColorRGB(255,255,255) 
         pdf.setFont('Vera', 8);
-        pdf.drawString(18.5*cm,(0.3)*cm,d2)   
+        pdf.drawString(19.8*cm,(0.9)*cm,d2)  
         pdf.showPage()
         pdf.save()
 
@@ -4551,7 +4554,7 @@ def template2(request,userId=None):
         
         
         
-    
+        pdf.drawImage('/home/pdfImages/Disclaimer.png',0.06*cm,(0.05)*cm,21*cm,0.8*cm,preserveAspectRatio=False, mask='auto');	
         ################################ Right_Template_Contents ##################################################
         pdf.setFont('Vera', 9);
         
@@ -5178,7 +5181,7 @@ def template2(request,userId=None):
             
         pdf.setFillColorRGB(255,255,255) 
         pdf.setFont('Vera', 8);
-        pdf.drawString(18.5*cm,(0.3)*cm,d2)   
+        pdf.drawString(19.8*cm,(0.9)*cm,d2)   
         pdf.showPage()
         pdf.save()
 
@@ -6613,8 +6616,8 @@ def template3(request,userId=None):
                 if spBank1 != 'NA' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/leftBullet.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
                     pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
@@ -6632,7 +6635,7 @@ def template3(request,userId=None):
                 if spBank1 == 'NA' and spBankDet1 == 'NA':
                     spBankHt = 1.5
                 else: 
-                    spBankHt = 0
+                    spBankHt = 0.6
                 # spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
                 spouseSpacing = 0;
                 
@@ -6785,7 +6788,7 @@ def template3(request,userId=None):
                     pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
                 
             
-        
+            pdf.drawImage('/home/pdfImages/Disclaimer.png',0.06*cm,(0.05)*cm,21*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
             ################################ Right_Template_Contents ##################################################
             pdf.setFont('Vera', 9);
             
@@ -7412,7 +7415,7 @@ def template3(request,userId=None):
                 
             pdf.setFillColorRGB(255,255,255) 
             pdf.setFont('Vera', 8);
-            pdf.drawString(18.5*cm,(0.3)*cm,d2)   
+            pdf.drawString(19.8*cm,(0.9)*cm,d2)   
             pdf.showPage()
             pdf.save()
 
@@ -9702,8 +9705,8 @@ def pdf_gen(request,userId=None):
                 if spBank1 != 'NA' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/leftBullet.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
                     pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
@@ -9721,7 +9724,7 @@ def pdf_gen(request,userId=None):
                 if spBank1 == 'NA' and spBankDet1 == 'NA':
                     spBankHt = 1.5
                 else: 
-                    spBankHt = 0
+                    spBankHt = 0.5
                 # spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
                 spouseSpacing = 0;
                
@@ -9744,15 +9747,15 @@ def pdf_gen(request,userId=None):
                         pdf.drawCentredString(4.85*cm,(5.55+spouseHeight+spBankHt)*cm,"REGISTERED Vehicle(s)");
                         pdf.setFont('Vera', 10);
                     if vehicle1 !='NA':
-                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.9+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                        pdf.drawString(2*cm,(4.9+spouseHeight+spBankHt)*cm,vehicle1);
+                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.95+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                        pdf.drawString(2*cm,(4.95+spouseHeight+spBankHt)*cm,vehicle1);
                     if vehicle2 !='NA':
-                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.2+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                        pdf.drawString(2*cm,(4.2+spouseHeight+spBankHt)*cm,vehicle2);
+                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(4.25+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                        pdf.drawString(2*cm,(4.25+spouseHeight+spBankHt)*cm,vehicle2);
                     
                     if vehicle3 !='NA':
-                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(3.5+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                        pdf.drawString(2*cm,(3.45+spouseHeight+spBankHt)*cm,vehicle3);
+                        pdf.drawImage('/home/pdfImages/arrow_blue.png',1.5*cm,(3.65+spouseHeight+spBankHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                        pdf.drawString(2*cm,(3.55+spouseHeight+spBankHt)*cm,vehicle3);
                 
                 
                 if selectedCity == city:
@@ -9766,7 +9769,7 @@ def pdf_gen(request,userId=None):
                 else:
                     cityData = city+', '+state.title()
                 # print('Input_Pop',Input_Pop) 
-                # vehicleHeight = 0
+                vehicleHeight = 0.3
                 if Input_Pop != 'NA' or Median_HouseHold_Val != 'NA' or medianHouseValue !='NA':
                     pdf.setFont('Vera', 12);
                     pdf.roundRect(0.75*cm, (0.4+spouseHeight+vehicleHeight+spBankHt)*cm, 11.5*cm, 2.6*cm, 10, stroke=1, fill=0);
@@ -9874,8 +9877,11 @@ def pdf_gen(request,userId=None):
                     pdf.setFont('Vera', 8);
                     pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
                 
+                pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
             
-        
+            pdf.drawImage('/home/pdfImages/Disclaimer.png',0.06*cm,(0.05)*cm,21*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            # f.addFromList(disclaim,pdf)
+            
             ################################ Right_Template_Contents ##################################################
             pdf.setFont('Vera', 9);
             
@@ -10160,8 +10166,8 @@ def pdf_gen(request,userId=None):
                     ld_url = []
                     raw_addr = Per_LinkedIn
                     address2 = raw_addr[0:28]+'<br/>'+raw_addr[28:58]+'<br/>'+raw_addr[58:]
-                    address = '<link href="' + raw_addr + '">' + address + '</link>'
-                    ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    address2 = '<link href="' + raw_addr + '">' + address2 + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
 
                     f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(ld_url,pdf)
@@ -10502,7 +10508,7 @@ def pdf_gen(request,userId=None):
                 
             pdf.setFillColorRGB(255,255,255) 
             pdf.setFont('Vera', 8);
-            pdf.drawString(18.5*cm,(0.3)*cm,d2)   
+            pdf.drawString(19.8*cm,(0.9)*cm,d2)   
             pdf.showPage()
             pdf.save()
 
@@ -12792,8 +12798,8 @@ def template4(request,userId=None):
                 if spBank1 != 'NA' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/leftBullet.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
                     pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
@@ -13604,16 +13610,7 @@ def template4(request,userId=None):
                     ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
                     f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(ld_url,pdf)
-                    
-                    # pdf.drawImage(linkedinLogo,13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
-                    # ld_url = []
-                    # raw_addr2 = Per_LinkedIn
-                    # address2 = raw_addr2[0:28]+'<br/>'+raw_addr2[28:58]+'<br/>'+raw_addr2[58:]
-                    # address2 = '<link href="' + raw_addr2 + '">' + address2 + '</link>'
-                    # ld_url.append(Paragraph('<font color="white">'+address2+'</font>',styleN))
-                    # f = Frame(14.5*cm, 14.3*cm, 6*cm, 1.8*cm, showBoundary=0)
-                    # f.addFromList(ld_url,pdf)
-                    
+                                        
                     pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.75*cm,15.4*cm,Per_Tel)
                     
@@ -13625,10 +13622,57 @@ def template4(request,userId=None):
                     website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
                     f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(website,pdf)
-                  
-
-
-
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website != 'NA':
+                    
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr = Per_LinkedIn
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                                        
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,15.4*cm,Per_Tel)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
+                
+                
+                elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website != 'NA':
+                    
+                    pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
+                    
+                    pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    ld_url = []
+                    raw_addr = Per_LinkedIn
+                    address = raw_addr[0:25]+'<br/>'+raw_addr[25:56]+'<br/>'+raw_addr[57:]
+                    address = '<link href="' + raw_addr + '">' + address + '</link>'
+                    ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
+                    f = Frame(14.5*cm, 15.6*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(ld_url,pdf)
+                                        
+                    pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,15*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.75*cm,15.4*cm,Per_Tel)
+                    
+                    pdf.drawImage('/home/pdfImages/link.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
+                    website = []
+                    raw_addr4 = Person_Website
+                    address4 = raw_addr4[0:25]+'<br/>'+raw_addr4[25:56]+'<br/>'+raw_addr4[57:]
+                    address4 = '<link href="' + raw_addr4 + '">' + address4 + '</link>'
+                    website.append(Paragraph('<font color="white">'+address4+'</font>',styleN))
+                    f = Frame(14.5*cm, 13.25*cm, 6*cm, 1.8*cm, showBoundary=0)
+                    f.addFromList(website,pdf)
                   
 
                     # pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
