@@ -12817,7 +12817,7 @@ def template4(request,userId=None):
                 if spBank1 == 'NA' and spBankDet1 == 'NA':
                     spBankHt = 1.5
                 else: 
-                    spBankHt = 0
+                    spBankHt = 0.65
                 # spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
                 spouseSpacing = 0;
                
@@ -12896,7 +12896,7 @@ def template4(request,userId=None):
                 if spBank1 == 'NA' and spBankDet1 == 'NA':
                     spBankHt = 1.5
                 else: 
-                    spBankHt = 0
+                    spBankHt = 0.65
                 spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
                 # spouseSpacing = 0;
                 
@@ -12971,7 +12971,7 @@ def template4(request,userId=None):
                     pdf.drawCentredString(10.2*cm,(0.8+spouseHeight+vehicleHeight+spBankHt)*cm,medianHouseValue);
                 
             
-        
+            pdf.drawImage('/home/pdfImages/Disclaimer.png',0.06*cm,(0.05)*cm,21*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
             ################################ Right_Template_Contents ##################################################
             pdf.setFont('Vera', 9);
             
@@ -13889,7 +13889,7 @@ def template4(request,userId=None):
                 
             pdf.setFillColorRGB(255,255,255) 
             pdf.setFont('Vera', 8);
-            pdf.drawString(18.5*cm,(0.3)*cm,d2)   
+            pdf.drawString(19.8*cm,(0.9)*cm,d2)   
             pdf.showPage()
             pdf.save()
 
