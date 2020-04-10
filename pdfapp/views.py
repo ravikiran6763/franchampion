@@ -1604,7 +1604,7 @@ def template1(request,userId=None):
             if spBank1 == 'NA' and spBankDet1 == 'NA':
                 spBankHt = 1.5
             else: 
-                spBankHt = 0
+                spBankHt = 0.65
             # spouseSpacing = spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt
             spouseSpacing = 0;
             spouseHeight = 0;
@@ -4200,9 +4200,9 @@ def template2(request,userId=None):
             # print('ADJUST SINGLE HOME ')
             # Addr = 3
         
-        print('Addr',Addr)
-        print('JOB1',JOB1)
-        print('comp1',comp1)
+        # print('Addr',Addr)
+        # print('JOB1',JOB1)
+        # print('comp1',comp1)
         
         
         noSpouseHt = 4.5
@@ -12990,37 +12990,40 @@ def template4(request,userId=None):
                 Per_LinkedIn=Per_LinkedIn
                 linkedinLogo='/home/pdfImages/Linkedin.png'
             
-            if Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA':
+            # Person_Website = "https://www.doctorquick.com/"
+            Person_Website = "NA"
+            
+            if Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':
                 socialHght = 6
-            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 3.5
-            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 3.5
-            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 3.5
-            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 3.5
                 
-            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
-            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
-            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
-            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
-            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
-            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 2.5
                 
-            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel == 'NA' and Person_Website == 'NA':   
                 socialHght = 1.25
-            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email == 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 1.25
-            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook != 'NA' and Per_LinkedIn == 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 1.25
-            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA':   
+            elif Per_facebook == 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website == 'NA':   
                 socialHght = 1.25
             
                 
@@ -13031,8 +13034,7 @@ def template4(request,userId=None):
             rightSpacing = socialHght-1.2
             # print('rightSpacing',rightSpacing)
             pdf.setFillColorRGB(255,255,255)
-            Person_Website = "https://www.doctorquick.com/"
-            # Person_Website = "NA"
+            
             if Per_facebook != 'NA' and Per_LinkedIn != 'NA' and per_Email != 'NA' and Per_Tel != 'NA' and Person_Website != 'NA':
                 
                 pdf.drawImage('/home/pdfImages/Contact_info.png',16.5*cm,17.55*cm,3.8*cm,1.5*cm,preserveAspectRatio=False, mask='auto' );
@@ -13675,12 +13677,6 @@ def template4(request,userId=None):
                     f.addFromList(website,pdf)
                   
 
-                    # pdf.drawImage('/home/pdfImages/Call_Icon.png',13.5*cm,12.6*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
-                    # pdf.drawString(14.75*cm,13*cm,Per_Tel)
-            
-            
-                
-            
             
             # pdf.drawString(13.7*cm,(12.2)*cm,'________________________________________________') 
             
@@ -13725,6 +13721,7 @@ def template4(request,userId=None):
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                 pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
             
+            
             rightSpacing = 0
             if corDate1 == 'NA' and corDate2 == 'NA':
                 corpHght = 2
@@ -13736,110 +13733,34 @@ def template4(request,userId=None):
             
             rightSpacing = socialHght + corpHght-1.2
             
-            if BRFdate1 != 'NA' and BRFdate2 != 'NA':
-                # contactHeight=contactHeight+0.85
-                pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/bankrupt.png',13.65*cm,(10+rightSpacing)*cm,0.6*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.5*cm,(10+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
-                pdf.setFont('Vera', 9);      
-                # pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
-                pdf.drawString(14.25*cm,(9.5+rightSpacing)*cm,'Year');
-                
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(9+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(9+rightSpacing)*cm,BRFdate1)
-                # if BROdate1 != 'NA':
-                    # pdf.drawString(15.3*cm,(6)*cm,BROdate1)
-                
-                if BRFdate2 != 'NA':
-                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(8.5+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(14.25*cm,(8.5+rightSpacing)*cm,BRFdate2)
-                # if BROdate2 != 'NA':
-                    # pdf.drawString(15.3*cm,(5.4)*cm,BROdate2)
-            elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
-                # print('BRFdate2',BRFdate2)
-                contactHeight=contactHeight+0.85
-                pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/bankrupt.png',13.65*cm,(10+rightSpacing)*cm,0.6*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.5*cm,(10+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
-                pdf.setFont('Vera', 9);      
-                # pdf.drawString(14.25*cm,(5)*cm,'Filing Date   Filing Status');
-                pdf.drawString(14.25*cm,(9.5+rightSpacing)*cm,'Year');
-                
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(9+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(9+rightSpacing)*cm,BRFdate1)
-                
-            if BRFdate1 == 'NA' and BRFdate2 == 'NA':
-                bankHght = 2
-            elif BRFdate1 != 'NA' and BRFdate2 == 'NA':
-                bankHght = 0.6
-                
-            else:
-                bankHght = 0   
-            rightSpacing = socialHght + corpHght + bankHght-1.2
-            # print('rightSpacing3',rightSpacing)
-            if EVFdate1 != 'NA' and EVFdate2 != 'NA':
-                pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/eviction.png',13.65*cm,(7.8+rightSpacing)*cm,0.6*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.5*cm,(7.8+rightSpacing)*cm,'EVICTIONS');
-                pdf.setFont('Vera', 9);
-                pdf.drawString(14.25*cm,(7.3+rightSpacing)*cm,'Filing Date   Filing Type');
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.8+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(6.8+rightSpacing)*cm,EVFdate1)
-                
-                if EVOdate1 !='NA':
-                    pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
-                
-                if EVFdate2 !='NA':
-                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(14.25*cm,(6.3+rightSpacing)*cm,EVFdate2)
-                if EVOdate2 !='NA':
-                    pdf.drawString(16.3*cm,(6.3+rightSpacing)*cm,EVOdate2)
-                
-            elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
-                pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/eviction.png',13.65*cm,(7.8+rightSpacing)*cm,0.6*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.5*cm,(7.8+rightSpacing)*cm,'EVICTIONS');
-                pdf.setFont('Vera', 9);
-                pdf.drawString(14.25*cm,(7.3+rightSpacing)*cm,'Filing Date   Filing Type');
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(6.8+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(6.8+rightSpacing)*cm,EVFdate1)
-                
-                if EVOdate1 !='NA':
-                    pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
-                if EVOdate1 !='NA':
-                    pdf.drawString(16.3*cm,(6.8+rightSpacing)*cm,EVOdate1)
-            pdf.setFont('Vera', 12);    
+            pdf.setFillColorRGB(255,255,255)
+            pdf.setFont('Vera', 12);
+            pdf.drawString(13.75*cm,(10.5+rightSpacing)*cm,'________________________________')
             
-            if EVFdate1 == 'NA' and EVFdate2 == 'NA':
-                evicHght = 2
-            elif EVFdate1 != 'NA' and EVFdate2 == 'NA':
-                evicHght = 0.5
-                
-            else:
-                evicHght = 0   
-            rightSpacing = socialHght + corpHght + bankHght + evicHght-1.2
-            # print('rightSpacing4',rightSpacing)
-            #####JUDGEMENTS###########
+            pdf.drawString(14*cm,(9.7+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
+            
             if judments !='NA':
-                pdf.drawImage('/home/pdfImages/judgements.png',13.65*cm,(5.6+rightSpacing)*cm,0.6*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.5*cm,(5.6+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
+                pdf.drawImage('/home/pdfImages/checked.png',19.6*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            else:
+                pdf.drawImage('/home/pdfImages/blank.png',19.6*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
                 
-                # pdf.drawString(14.5*cm,(0.65)*cm,'(OVER $1,000 in past 15 Years)');
-                pdf.setFont('Vera', 11);
-               
-                if judments == 'Yes' or judments == 'yes':
-                    pdf.drawImage('/home/pdfImages/yes.png',14*cm,(4.8+rightSpacing)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
-                else:
-                    pdf.drawImage('/home/pdfImages/no.png',14*cm,(4.8+rightSpacing)*cm,0.6*cm,0.6*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawImage('/home/pdfImages/yes.png',14.75*cm,(-0.40)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False);
-                pdf.drawString(14.75*cm,(5+rightSpacing)*cm,judments)
-               
-                
+            pdf.drawString(14*cm,(9+rightSpacing)*cm,'POSSIBLE EVICTIONS');
+            if EVFdate1 != 'NA' and EVFdate2 != 'NA':
+                pdf.drawImage('/home/pdfImages/checked.png',19.6*cm,(8.8+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            else:
+                pdf.drawImage('/home/pdfImages/blank.png',19.6*cm,(8.8+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(14*cm,(8.3+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
+            
+            if BRFdate1 != 'NA' and BRFdate2 != 'NA':
+                pdf.drawImage('/home/pdfImages/checked.png',19.6*cm,(8.1+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            else:
+                pdf.drawImage('/home/pdfImages/blank.png',19.6*cm,(8.1+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+            pdf.drawString(13.75*cm,(8.1+rightSpacing)*cm,'________________________________')       
             if len(licences) == 0:
                 licenLen=2
             else:
                 licenLen=0
-            
+            rightSpacing += 3
             if len(licences) == 0 and profLicence == 'NA':
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
@@ -13851,7 +13772,7 @@ def template4(request,userId=None):
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    
+                    pdf.setFont('Vera', 9);
                     if licence1 !='NA':
                         pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
                     if licence2 !='NA':
@@ -13869,11 +13790,12 @@ def template4(request,userId=None):
                 
                 else:
                     licenHt=0
-                rightSpacing = socialHght + corpHght + bankHght + evicHght + licenHt-1
+                # rightSpacing = socialHght + corpHght  + licenHt-1
                 # print('rightSpacing5',rightSpacing)
                 if profLicence != 'NA':
                     if len(licences) == 0:
                         pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
+                        pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
@@ -13886,7 +13808,7 @@ def template4(request,userId=None):
                     
                     f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
                     f.addFromList(profLic,pdf)
-                
+            
             pdf.setFillColorRGB(255,255,255) 
             pdf.setFont('Vera', 8);
             pdf.drawString(19.8*cm,(0.9)*cm,d2)   
