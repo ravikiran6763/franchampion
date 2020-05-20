@@ -64,11 +64,18 @@ from datetime import date
 import datetime
 from reportlab.lib.styles import ParagraphStyle
 
+from base64 import b64decode
+import base64
+from PIL import Image
+from io import BytesIO
+
 styles = getSampleStyleSheet()
 styleN = styles['Normal']
 styleH = styles['Heading1']
 pdfmetrics.registerFont(TTFont('Vera', 'Vera.ttf'))
 pdfmetrics.registerFont(TTFont('VeraBd', 'VeraBd.ttf'))
+pdfmetrics.registerFont(TTFont('VeraIt', 'VeraIt.ttf'))
+pdfmetrics.registerFont(TTFont('VeraBI', 'VeraBI.ttf'))
 
 today = date.today()
 mon = str(today.month)
@@ -77,6 +84,17 @@ year = str(today.year)
 d2 = mon+'/'+day+'/'+year[-2:]
 # disclaimer = ""
 # print(disclaimer)
+
+import base64
+import re
+
+from PIL import Image
+import cv2
+# Take in base64 string and return cv image
+def stringToRGB(base64_string):
+    imgdata = base64.b64decode(str(base64_string))
+    image = Image.open(io.BytesIO(imgdata))
+    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
 def custom_format_currency(value, currency, locale):
     value = decimal.Decimal(value)
@@ -512,41 +530,56 @@ def template1(request,userId=None):
             if not webSite:
                 webSite ='NA'
             degreeType =x[93]
+            estSavings =x[94]
+            if not estSavings:
+                estSavings ='NA'
             ####image data
             
-            imageId            =x[94]
-            person_image            =x[95]
-            home_image            =x[96]
-            name            =x[97]
-            dateAndTime            =x[98]
-            personImageFlag            =x[99]
-            homeImageFlag            =x[100]
+            imageId            =x[95]
+            person_image            =x[96]
+            home_image            =x[97]
+            name            =x[98]
+            dateAndTime            =x[99]
+            personImageFlag            =x[100]
+            homeImageFlag            =x[101]
             # print(person_image)
+           
             profileString = person_image.decode()
+            if personImageFlag == 2:
+                img = imread(io.BytesIO(base64.b64decode(profileString)))
+                 # show image
+                plt.figure()
+                plt.imshow(img, cmap="gray")
+                
+                cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("profileImage.jpg", cv2_img)
+                plt.show()
+            else:
+                profileString = profileString[22:]
 
-            # reconstruct image as an numpy array
-            img = imread(io.BytesIO(base64.b64decode(profileString)))
+                print(profileString)
 
-            # show image
-            plt.figure()
-            plt.imshow(img, cmap="gray")
-            
-            cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("profileImage.jpg", cv2_img)
-            plt.show()
-            
+                im = Image.open(BytesIO(base64.b64decode(profileString)))
+                im.save('profileImage.jpg', 'PNG')
+           
             houseString = home_image.decode()
+            if homeImageFlag == 2:
+                # reconstruct image as an numpy array
+                img1 = imread(io.BytesIO(base64.b64decode(houseString)))
 
-            # reconstruct image as an numpy array
-            img1 = imread(io.BytesIO(base64.b64decode(houseString)))
-
-            # show image
-            plt.figure()
-            plt.imshow(img1, cmap="gray")
-            
-            cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("houseImage.jpg", cv2_img1)
-            plt.show()
+                # show image
+                plt.figure()
+                plt.imshow(img1, cmap="gray")
+                
+                cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("houseImage.jpg", cv2_img1)
+                plt.show()
+            else:
+                houseString = houseString[22:]
+                
+                im1 = Image.open(BytesIO(base64.b64decode(houseString)))
+                im1.save('houseImage.jpg', 'PNG')
+                
         
         if Address2 == 'NA' and Address3 == 'NA':
             Addr = 1
@@ -1137,28 +1170,46 @@ def template1(request,userId=None):
                     Dep_Salary = custom_format_currency(38500, 'USD', locale='en_US')
         
         
-        
+        if personImageFlag == 2:
+            shiftSaving = 4
+        else:
+            shiftSaving = 0
         if Addr == 1:
-            pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
-            
-            if houseType =='Rented Apartment' or houseType =='Apartment':
-                pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
-                # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+            if estSavings !='NA':
+                pdf.drawImage('/home/pdfImages/personHome.png',(4.7)*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', (0.25+shiftSaving)*cm, 27.6*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', (1.25+shiftSaving)*cm, 27.7*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png',(9+shiftSaving)*cm, 27.7*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString((1.5+shiftSaving)*cm,27.9*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                pdf.setFillColorRGB(255,0,0)
+                pdf.drawString((9.5+shiftSaving)*cm,27.9*cm,estSavings);
+                pdf.setFillColorRGB(0,0,0)
+                
+                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(26.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                if houseType =='Rented Apartment' or houseType =='Apartment':
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                else:
+                    pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                
+                pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 5*cm, 4, stroke=1, fill=0);
             else:
-                pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
-            
-            pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 6*cm, 4, stroke=1, fill=0);
+                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                if houseType =='Rented Apartment' or houseType =='Apartment':
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                else:
+                    pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                
+                pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 6*cm, 4, stroke=1, fill=0);
            
             pdf.setFont('VeraBd', 9);
             
             pdf.drawCentredString(6.5*cm,(20.25)*cm,Address+', '+city+', '+state.title()+' '+pincode);
-            
-            
-            # pdf.drawString(1.5*cm,(20.25)*cm,Address);
-            # pdf.drawString(1.5*cm,(19.75)*cm,city+', '+state.title()+' '+pincode);
-            
-            
-            # pdf.drawString(5.62*cm,(21.25)*cm,pincode);
             
             if houseType =='Rented Apartment' or houseType =='Rented': 
                 pdf.drawImage('/home/pdfImages/rented.png',5.25*cm,(20.8)*cm,2.75*cm,0.6*cm,preserveAspectRatio=False);
@@ -1183,15 +1234,39 @@ def template1(request,userId=None):
                 pdf.drawCentredString(9.375*cm,(18.8)*cm,homeEqu1);
             
         else:
-            pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
-            
-            if houseType =='Rented Apartment' or houseType =='Apartment':
-                pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
-                # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+        
+            if estSavings !='NA':
+                
+                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', (0.25+shiftSaving)*cm, 27.6*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', (1.25+shiftSaving)*cm, 27.7*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png',(9+shiftSaving)*cm, 27.7*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString((1.5+shiftSaving)*cm,27.9*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                pdf.setFillColorRGB(255,0,0)
+                pdf.drawString((9.5+shiftSaving)*cm,27.9*cm,estSavings);
+                pdf.setFillColorRGB(0,0,0)
+                if houseType =='Rented Apartment' or houseType =='Apartment':
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.3)*cm,6*cm,3.6*cm,preserveAspectRatio=False);
+                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                else:
+                    pdf.drawImage('houseImage.jpg',3.5*cm,(23.3)*cm,6*cm,3.6*cm,preserveAspectRatio=False);
+                
+                pdf.roundRect(3.5*cm, (23.3)*cm, 6*cm, 3.6*cm, 4, stroke=1, fill=0);
             else:
-                pdf.drawImage('houseImage.jpg',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
             
-            pdf.roundRect(3.5*cm, (23.25)*cm, 6*cm, 4.5*cm, 4, stroke=1, fill=0);
+                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                
+                if houseType =='Rented Apartment' or houseType =='Apartment':
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
+                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                else:
+                    pdf.drawImage('houseImage.jpg',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
+                
+                pdf.roundRect(3.5*cm, (23.25)*cm, 6*cm, 4.5*cm, 4, stroke=1, fill=0);
            
             pdf.setFont('VeraBd', 9);
             
@@ -1449,12 +1524,20 @@ def template1(request,userId=None):
                 
                 
                 if Dep_Salary != 'NA':
-                    pdf.setFont('VeraBd', 8);
-                    pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
-                    pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                    pdf.setFont('VeraBd', 8);
-                    pdf.setFillColorRGB(255,0,0)
-                    pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
+                    if estSavings !='NA': 
+                        pdf.drawImage('/home/pdfImages/salaryNew.png', 1.5*cm, (10.2+qualiHeight+spEduHt)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                        pdf.setFont('VeraBd', 11);
+                        
+                        pdf.drawString(2*cm,(10.4+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY:  ")
+                        pdf.setFillColorRGB(255,0,0)
+                        pdf.drawString(8.5*cm,(10.4+qualiHeight+spEduHt)*cm,Dep_Salary);
+                    else:
+                        pdf.setFont('VeraBd', 8);
+                        pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
+                        pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                        pdf.setFont('VeraBd', 8);
+                        pdf.setFillColorRGB(255,0,0)
+                        pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
              
              
             if Dep_Employment != 'NA':
@@ -1508,21 +1591,25 @@ def template1(request,userId=None):
                 f.addFromList(ld_url_right,pdf)
             
             # if spBank1 != 'NA' and spouseBankruptDate != 'NA':
-            if spBank1 != 'NA' :
-                
-                pdf.setFont('Vera', 12);
-                pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
-                # pdf.drawImage('/home/pdfImages/leftBullet.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.6*cm,0.4*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
-                pdf.setFont('Vera', 9);      
-                # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
-                pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
-                
-                pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
-                
-                # if spBankDet1 != 'NA':
-                    # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
+            if spBank1 != 'NA' and spBank1 != 'None':
+                    
+                    pdf.setFont('Vera', 12);
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.35+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/checked.png',8*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(8.9*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1);
+                    # pdf.drawString(13.8*cm,(8.3+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
+                    
+                    pdf.setFont('Vera', 9);      
+                    # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
+                    # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
+                    
+                    # pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    # pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
+                    
+                    # if spBankDet1 != 'NA':
+                        # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
+       
    
         ############################# About Family ################################
          
@@ -2472,16 +2559,16 @@ def template1(request,userId=None):
             corpHght = 0.6
             
         else:
-            corpHght = 0
+            corpHght = 0.5
         
-        rightSpacing = socialHght + corpHght-1.2
+        rightSpacing = socialHght + corpHght-2
         
         pdf.setFillColorRGB(255,255,255)
         pdf.setFont('Vera', 11);
         pdf.drawString(13.75*cm,(10.5+rightSpacing)*cm,'____________________________________')
         
         pdf.drawString(13.8*cm,(9.7+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
-        if judments !='NA':
+        if judments !='No':
             pdf.drawImage('/home/pdfImages/checked.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
         else:
             pdf.drawImage('/home/pdfImages/blank.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
@@ -2513,7 +2600,7 @@ def template1(request,userId=None):
         if len(licences) == 0 and profLicence == 'NA':
             pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
             pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
-            pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licences')
+            pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
         
         else:
          
@@ -2546,16 +2633,16 @@ def template1(request,userId=None):
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.setFont('Vera', 12);
                     pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                 profLic = []
                 pdf.setFillColorRGB(0,0,0)
                 raw_addr = profLicence.title()
-                address = raw_addr[0:35]+'<br/>'+raw_addr[35:60]+'<br/>'+raw_addr[60:]
+                address = raw_addr[0:150]+'<br/>'+raw_addr[150:300]+'<br/>'+raw_addr[300:450]+'<br/>'+raw_addr[450:600]+'<br/>'+raw_addr[600:]
                 # address = '<link href="' + raw_addr + '">' + address + '</link>'
                 profLic.append(Paragraph('<font color="white">'+address+'</font>',styleN))
                 
-                f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
+                f = Frame(14.1*cm, (-1.3+rightSpacing)*cm, 6.8*cm, 3.4*cm, showBoundary=0)
                 f.addFromList(profLic,pdf)
         
         pdf.setFillColorRGB(255,255,255) 
@@ -3005,41 +3092,53 @@ def template2(request,userId=None):
             if not webSite:
                 webSite ='NA'
             degreeType =x[93]
+            estSavings =x[94]
+            if not estSavings:
+                estSavings ='NA'
             ####image data
             
-            imageId            =x[94]
-            person_image            =x[95]
-            home_image            =x[96]
-            name            =x[97]
-            dateAndTime            =x[98]
-            personImageFlag            =x[99]
-            homeImageFlag            =x[100]
-            # print(person_image)
+            imageId            =x[95]
+            person_image            =x[96]
+            home_image            =x[97]
+            name            =x[98]
+            dateAndTime            =x[99]
+            personImageFlag            =x[100]
+            homeImageFlag            =x[101]
             profileString = person_image.decode()
+            if personImageFlag == 2:
+                img = imread(io.BytesIO(base64.b64decode(profileString)))
+                 # show image
+                plt.figure()
+                plt.imshow(img, cmap="gray")
+                
+                cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("profileImage.jpg", cv2_img)
+                plt.show()
+            else:
+                profileString = profileString[22:]
 
-            # reconstruct image as an numpy array
-            img = imread(io.BytesIO(base64.b64decode(profileString)))
+                print(profileString)
 
-            # show image
-            plt.figure()
-            plt.imshow(img, cmap="gray")
-            
-            cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("profileImage.jpg", cv2_img)
-            plt.show()
-            
+                im = Image.open(BytesIO(base64.b64decode(profileString)))
+                im.save('profileImage.jpg', 'PNG')
+           
             houseString = home_image.decode()
+            if homeImageFlag == 2:
+                # reconstruct image as an numpy array
+                img1 = imread(io.BytesIO(base64.b64decode(houseString)))
 
-            # reconstruct image as an numpy array
-            img1 = imread(io.BytesIO(base64.b64decode(houseString)))
-
-            # show image
-            plt.figure()
-            plt.imshow(img1, cmap="gray")
-            
-            cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("houseImage.jpg", cv2_img1)
-            plt.show()
+                # show image
+                plt.figure()
+                plt.imshow(img1, cmap="gray")
+                
+                cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("houseImage.jpg", cv2_img1)
+                plt.show()
+            else:
+                houseString = houseString[22:]
+                
+                im1 = Image.open(BytesIO(base64.b64decode(houseString)))
+                im1.save('houseImage.jpg', 'PNG')
         
         if Address2 == 'NA' and Address3 == 'NA':
             Addr = 1
@@ -3500,11 +3599,27 @@ def template2(request,userId=None):
             lineMargin1 = 5.5
             lineMargin2 = 16
             salImgMargin = 8.2
+            estSal = 6.5
+            estSalImgMargin = 5.8
+            estSalVal = 13
+            savingIcon = 4.3
+            savingRight = 5.3
+            savingTitle = 5.5
+            savingLeft = 13
+            savingVal = 13.6
         else:
            noImageMargin = 12.5
            lineMargin1 = 2
            lineMargin2 = 10.5
            salImgMargin = 3.3
+           estSal = 2
+           estSalImgMargin = 1.25
+           estSalVal = 8.5
+           savingIcon = 0.25
+           savingRight = 1.1
+           savingTitle = 1.3
+           savingLeft = 8.8
+           savingVal = 9.3
             
         
         if JOB1 == 'NA' and comp1 == 'NA' and JOB2 == 'NA' and comp2 == 'NA' and prevJOB1 == 'NA' and prevJOB2 == 'NA' and prevComp1 == 'NA' and prevComp2 == 'NA': 
@@ -4463,25 +4578,47 @@ def template2(request,userId=None):
                     Dep_Salary = custom_format_currency(38500, 'USD', locale='en_US')
                 
             
+        if estSavings !='NA':
+            if Per_Salary != 'NA':
+                pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, 24.7*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBd', 11);
+                pdf.drawString((estSal)*cm,24.9*cm,"ESTIMATED YEARLY SALARY:  ")
+                pdf.setFillColorRGB(255,0,0)
+                pdf.drawString(estSalVal*cm,24.9*cm,Per_Salary);
             
-        if JOB1 != 'NA' and Per_Salary !='NA':
-            pdf.setFont('VeraBd', 11);
-            pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-            pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            pdf.setFont('VeraBd', 11);
+            estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+            pdf.setFillColorRGB(0,0,0)
+            pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, 23.85*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+            pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, 23.9*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+            # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+            pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, 23.9*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+            pdf.setFont('VeraBI', 11);
+            pdf.setFillColorRGB(255,255,255)
+            pdf.drawString(savingTitle*cm,24.1*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
             pdf.setFillColorRGB(255,0,0)
+            pdf.drawString(savingVal*cm,24.1*cm,estSavings);
+            # pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY:  "+Per_Salary);
+            # estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+            # pdf.drawCentredString((noImageMargin/2)*cm,24.4*cm,"ESTIMATED RETIREMENT SAVINGS:  "+estSavings);
+        else:
+            if JOB1 != 'NA' and Per_Salary !='NA':
+                pdf.setFont('VeraBd', 11);
+                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBd', 11);
+                pdf.setFillColorRGB(255,0,0)
+                
+                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+            pdf.setFillColorRGB(0,0,0)
             
-            pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
-        pdf.setFillColorRGB(0,0,0)
-        
-        if prevJOB1 != 'NA' and Per_Salary !='NA':
-            pdf.setFont('VeraBd', 11);
-            pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-            pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            pdf.setFont('VeraBd', 11);
-            pdf.setFillColorRGB(255,0,0)
-            
-            pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+            if prevJOB1 != 'NA' and Per_Salary !='NA':
+                pdf.setFont('VeraBd', 11);
+                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBd', 11);
+                pdf.setFillColorRGB(255,0,0)
+                
+                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
         pdf.setFillColorRGB(0,0,0)
         
         # if Address1 != 'NA':
@@ -5183,7 +5320,7 @@ def template2(request,userId=None):
                 pdf.drawImage(linkedinLogo,13.5*cm,16.2*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                 ld_url = []
                 raw_addr = Per_LinkedIn
-                address2 = raw_addr[0:28]+'<br/>'+raw_addr[28:58]+'<br/>'+raw_addr[58:]
+                address = raw_addr[0:28]+'<br/>'+raw_addr[28:58]+'<br/>'+raw_addr[58:]
                 address = '<link href="' + raw_addr + '">' + address + '</link>'
                 ld_url.append(Paragraph('<font color="white">'+address+'</font>',styleN))
 
@@ -5638,19 +5775,19 @@ def template2(request,userId=None):
         if corDate1 == 'NA' and corDate2 == 'NA':
             corpHght = 2
         elif corDate1 != 'NA' and corDate2 == 'NA':
-            corpHght = 0.6
+            corpHght = 0.8
             
         else:
-            corpHght = 0
+            corpHght = 0.5
         
-        rightSpacing = socialHght + corpHght-1.2
+        rightSpacing = socialHght + corpHght-2
         
         pdf.setFillColorRGB(255,255,255)
         pdf.setFont('Vera', 11);
         pdf.drawString(13.75*cm,(10.5+rightSpacing)*cm,'____________________________________')
         
         pdf.drawString(13.8*cm,(9.7+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
-        if judments !='NA':
+        if judments !='No':
             pdf.drawImage('/home/pdfImages/checked.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
         else:
             pdf.drawImage('/home/pdfImages/blank.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
@@ -5682,7 +5819,7 @@ def template2(request,userId=None):
         if len(licences) == 0 and profLicence == 'NA':
             pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
             pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
-            pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licences')
+            pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
         
         else:
          
@@ -5715,16 +5852,16 @@ def template2(request,userId=None):
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.setFont('Vera', 12);
                     pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
-                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
+                pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                 profLic = []
                 pdf.setFillColorRGB(0,0,0)
                 raw_addr = profLicence.title()
-                address = raw_addr[0:35]+'<br/>'+raw_addr[35:60]+'<br/>'+raw_addr[60:]
+                address = raw_addr[0:150]+'<br/>'+raw_addr[150:300]+'<br/>'+raw_addr[300:450]+'<br/>'+raw_addr[450:600]+'<br/>'+raw_addr[600:]
                 # address = '<link href="' + raw_addr + '">' + address + '</link>'
                 profLic.append(Paragraph('<font color="white">'+address+'</font>',styleN))
                 
-                f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
+                f = Frame(14.1*cm, (-1.3+rightSpacing)*cm, 6.8*cm, 3.4*cm, showBoundary=0)
                 f.addFromList(profLic,pdf)
         
         pdf.setFillColorRGB(255,255,255) 
@@ -6172,41 +6309,53 @@ def template3(request,userId=None):
             if not webSite:
                 webSite ='NA'
             degreeType =x[93]
+            estSavings =x[94]
+            if not estSavings:
+                estSavings ='NA'
             ####image data
             
-            imageId            =x[94]
-            person_image            =x[95]
-            home_image            =x[96]
-            name            =x[97]
-            dateAndTime            =x[98]
-            personImageFlag            =x[99]
-            homeImageFlag            =x[100]
-            # print(person_image)
+            imageId            =x[95]
+            person_image            =x[96]
+            home_image            =x[97]
+            name            =x[98]
+            dateAndTime            =x[99]
+            personImageFlag            =x[100]
+            homeImageFlag            =x[101]
             profileString = person_image.decode()
+            if personImageFlag == 2:
+                img = imread(io.BytesIO(base64.b64decode(profileString)))
+                 # show image
+                plt.figure()
+                plt.imshow(img, cmap="gray")
+                
+                cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("profileImage.jpg", cv2_img)
+                plt.show()
+            else:
+                profileString = profileString[22:]
 
-            # reconstruct image as an numpy array
-            img = imread(io.BytesIO(base64.b64decode(profileString)))
+                print(profileString)
 
-            # show image
-            plt.figure()
-            plt.imshow(img, cmap="gray")
-            
-            cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("profileImage.jpg", cv2_img)
-            plt.show()
-            
+                im = Image.open(BytesIO(base64.b64decode(profileString)))
+                im.save('profileImage.jpg', 'PNG')
+           
             houseString = home_image.decode()
+            if homeImageFlag == 2:
+                # reconstruct image as an numpy array
+                img1 = imread(io.BytesIO(base64.b64decode(houseString)))
 
-            # reconstruct image as an numpy array
-            img1 = imread(io.BytesIO(base64.b64decode(houseString)))
-
-            # show image
-            plt.figure()
-            plt.imshow(img1, cmap="gray")
-            
-            cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("houseImage.jpg", cv2_img1)
-            plt.show()
+                # show image
+                plt.figure()
+                plt.imshow(img1, cmap="gray")
+                
+                cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("houseImage.jpg", cv2_img1)
+                plt.show()
+            else:
+                houseString = houseString[22:]
+                
+                im1 = Image.open(BytesIO(base64.b64decode(houseString)))
+                im1.save('houseImage.jpg', 'PNG')
         
         if Address2 == 'NA' and Address3 == 'NA':
             Addr = 1
@@ -6792,39 +6941,52 @@ def template3(request,userId=None):
                     if calPerSal > 70000:
                         Per_Salary = custom_format_currency(68500, 'USD', locale='en_US')
                         Dep_Salary = custom_format_currency(38500, 'USD', locale='en_US')
-                    
-                
-                
-            
-            
-            
+            if personImageFlag == 2:
+                shiftSaving = 4
+            else:
+                shiftSaving = 0 
             if Addr == 1:
-                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
-                
-                if houseType =='Rented Apartment' or houseType =='Apartment':
-                    pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
-                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                if estSavings !='NA':
+                    pdf.drawImage('/home/pdfImages/personHome.png',(4.7)*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                    pdf.setFillColorRGB(0,0,0)
+                    pdf.drawImage('/home/pdfImages/savingsIcon.png', (0.25+shiftSaving)*cm, 27.6*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.drawImage('/home/pdfImages/savingRight.png', (1.25+shiftSaving)*cm, 27.7*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.drawImage('/home/pdfImages/savingsLeft.png',(9+shiftSaving)*cm, 27.7*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBI', 11);
+                    pdf.setFillColorRGB(255,255,255)
+                    pdf.drawString((1.5+shiftSaving)*cm,27.9*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString((9.5+shiftSaving)*cm,27.9*cm,estSavings);
+                    pdf.setFillColorRGB(0,0,0)
+                    
+                    pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(26.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    if houseType =='Rented Apartment' or houseType =='Apartment':
+                        pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                        # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    else:
+                        pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                    
+                    pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 5*cm, 4, stroke=1, fill=0);
                 else:
-                    pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
-                
-                pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 6*cm, 4, stroke=1, fill=0);
+                    pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    if houseType =='Rented Apartment' or houseType =='Apartment':
+                        pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                        # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    else:
+                        pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                    
+                    pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 6*cm, 4, stroke=1, fill=0);
                
                 pdf.setFont('VeraBd', 9);
                 
                 pdf.drawCentredString(6.5*cm,(20.25)*cm,Address+', '+city+', '+state.title()+' '+pincode);
                 
-                
-                # pdf.drawString(1.5*cm,(20.25)*cm,Address);
-                # pdf.drawString(1.5*cm,(19.75)*cm,city+', '+state.title()+' '+pincode);
-                
-                
-                # pdf.drawString(5.62*cm,(21.25)*cm,pincode);
-                
                 if houseType =='Rented Apartment' or houseType =='Rented': 
                     pdf.drawImage('/home/pdfImages/rented.png',5.25*cm,(20.8)*cm,2.75*cm,0.6*cm,preserveAspectRatio=False);
                 if houseType =='For Sale':  
                     pdf.drawImage('/home/pdfImages/sale.png',5.25*cm,(20.8)*cm,2.75*cm,0.8*cm,preserveAspectRatio=False);
-                    
+                
                 if homeValu1 !='$0':
                 
                     pdf.drawImage('/home/pdfImages/dot.png',1*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
@@ -6843,15 +7005,39 @@ def template3(request,userId=None):
                     pdf.drawCentredString(9.375*cm,(18.8)*cm,homeEqu1);
                 
             else:
-                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
-                
-                if houseType =='Rented Apartment' or houseType =='Apartment':
-                    pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
-                    # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+
+                if estSavings !='NA':
+                    
+                    pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                    pdf.setFillColorRGB(0,0,0)
+                    pdf.drawImage('/home/pdfImages/savingsIcon.png', (0.25+shiftSaving)*cm, 27.6*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.drawImage('/home/pdfImages/savingRight.png', (1.25+shiftSaving)*cm, 27.7*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.drawImage('/home/pdfImages/savingsLeft.png',(9+shiftSaving)*cm, 27.7*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBI', 11);
+                    pdf.setFillColorRGB(255,255,255)
+                    pdf.drawString((1.5+shiftSaving)*cm,27.9*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString((9.5+shiftSaving)*cm,27.9*cm,estSavings);
+                    pdf.setFillColorRGB(0,0,0)
+                    if houseType =='Rented Apartment' or houseType =='Apartment':
+                        pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.3)*cm,6*cm,3.6*cm,preserveAspectRatio=False);
+                        # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    else:
+                        pdf.drawImage('houseImage.jpg',3.5*cm,(23.3)*cm,6*cm,3.6*cm,preserveAspectRatio=False);
+                    
+                    pdf.roundRect(3.5*cm, (23.3)*cm, 6*cm, 3.6*cm, 4, stroke=1, fill=0);
                 else:
-                    pdf.drawImage('houseImage.jpg',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
                 
-                pdf.roundRect(3.5*cm, (23.25)*cm, 6*cm, 4.5*cm, 4, stroke=1, fill=0);
+                    pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    
+                    if houseType =='Rented Apartment' or houseType =='Apartment':
+                        pdf.drawImage('/home/pdfImages/rentedApt.png',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
+                        # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                    else:
+                        pdf.drawImage('houseImage.jpg',3.5*cm,(23.25)*cm,6*cm,4.5*cm,preserveAspectRatio=False);
+                    
+                    pdf.roundRect(3.5*cm, (23.25)*cm, 6*cm, 4.5*cm, 4, stroke=1, fill=0);
                
                 pdf.setFont('VeraBd', 9);
                 
@@ -6961,7 +7147,7 @@ def template3(request,userId=None):
                         pdf.setFont('VeraBd', 8);
                         pdf.drawString(6*cm,(18.4+homeHeight+Equiheight)*cm,homeValu3);
                         pdf.setFont('Vera', 8);
-               
+
                
             ####DIVORCED IMG
             
@@ -7070,7 +7256,7 @@ def template3(request,userId=None):
                 pdf.drawImage('/home/pdfImages/family.png',0.75*cm,(14.5+qualiHeight)*cm,9.5*cm,0.65*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawImage('/home/pdfImages/business.png',1.5*cm,(13.25+qualiHeight)*cm,0.5*cm,1*cm,preserveAspectRatio=False, mask='auto');
              
-                pdf.setFont('VeraBd', 12);
+                # pdf.setFont('VeraBd', 12);
                 if Spouse_Age == 'NA':
                     pdf.drawString(2.3*cm,(13.55+qualiHeight)*cm,spouse_name);
                 else:
@@ -7085,12 +7271,15 @@ def template3(request,userId=None):
                     pdf.setFillColorRGB(0.5,0.2,0.1)
                     if spedu1 != 'NA':
                         spUni1=spUni1+','
+                        pdf.setFont('Vera', 9);
                         pdf.drawString(2.3*cm,(12.75+qualiHeight)*cm,spUni1.upper());
                     else:
+                        pdf.setFont('Vera', 9);
                         pdf.drawString(2.3*cm,(12.55+qualiHeight)*cm,spUni1.upper());
                     pdf.setFillColorRGB(0,0,0)
                 if spedu1 !="NA":
                     pdf.drawImage('/home/pdfImages/edu.png',1.25*cm,(12.3+qualiHeight)*cm,0.9*cm,0.7*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.setFont('Vera', 9);
                     pdf.drawString(2.3*cm,(12.35+qualiHeight)*cm,spedu1);
                
                 
@@ -7106,12 +7295,20 @@ def template3(request,userId=None):
                     
                     
                     if Dep_Salary != 'NA':
-                        pdf.setFont('VeraBd', 8);
-                        pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
-                        pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                        pdf.setFont('VeraBd', 8);
-                        pdf.setFillColorRGB(255,0,0)
-                        pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
+                        if estSavings !='NA': 
+                            pdf.drawImage('/home/pdfImages/salaryNew.png', 1.5*cm, (10.2+qualiHeight+spEduHt)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                            pdf.setFont('VeraBd', 11);
+                            pdf.setFillColorRGB(0,0,0)
+                            pdf.drawString(2*cm,(10.4+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY:  ")
+                            pdf.setFillColorRGB(255,0,0)
+                            pdf.drawString(8.5*cm,(10.4+qualiHeight+spEduHt)*cm,Dep_Salary);
+                        else:
+                            pdf.setFont('VeraBd', 8);
+                            pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
+                            pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                            pdf.setFont('VeraBd', 8);
+                            pdf.setFillColorRGB(255,0,0)
+                            pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
                  
                  
                 if Dep_Employment != 'NA':
@@ -7164,21 +7361,26 @@ def template3(request,userId=None):
                     f = Frame(2*cm, (6.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt)*cm, 8.05*cm, 2.5*cm, showBoundary=0)
                     f.addFromList(ld_url_right,pdf)
                 
-                # if spBank1 != 'NA' and spouseBankruptDate != 'NA':
-                if spBank1 != 'NA' :
+                # if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' and spouseBankruptDate != 'NA':
+                if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.35+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/checked.png',8*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(8.9*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1);
+                    # pdf.drawString(13.8*cm,(8.3+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
+                    
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
-                    pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
+                    # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
                     
-                    pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
+                    # pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    # pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
                     
                     # if spBankDet1 != 'NA':
                         # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
+       
        
             ############################# About Family ################################
              
@@ -8125,19 +8327,19 @@ def template3(request,userId=None):
             if corDate1 == 'NA' and corDate2 == 'NA':
                 corpHght = 2
             elif corDate1 != 'NA' and corDate2 == 'NA':
-                corpHght = 0.6
+                corpHght = 0.8
                 
             else:
-                corpHght = 0
+                corpHght = 0.5
             
-            rightSpacing = socialHght + corpHght-1.2
+            rightSpacing = socialHght + corpHght-2
             
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 11);
             pdf.drawString(13.75*cm,(10.5+rightSpacing)*cm,'____________________________________')
             
             pdf.drawString(13.8*cm,(9.7+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
-            if judments !='NA':
+            if judments !='No':
                 pdf.drawImage('/home/pdfImages/checked.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
             else:
                 pdf.drawImage('/home/pdfImages/blank.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
@@ -8169,7 +8371,7 @@ def template3(request,userId=None):
             if len(licences) == 0 and profLicence == 'NA':
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
-                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licences')
+                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
             
             else:
              
@@ -8202,16 +8404,16 @@ def template3(request,userId=None):
                         pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                         pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
-                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
+                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                     profLic = []
                     pdf.setFillColorRGB(0,0,0)
                     raw_addr = profLicence.title()
-                    address = raw_addr[0:35]+'<br/>'+raw_addr[35:60]+'<br/>'+raw_addr[60:]
+                    address = raw_addr[0:150]+'<br/>'+raw_addr[150:300]+'<br/>'+raw_addr[300:450]+'<br/>'+raw_addr[450:600]+'<br/>'+raw_addr[600:]
                     # address = '<link href="' + raw_addr + '">' + address + '</link>'
                     profLic.append(Paragraph('<font color="white">'+address+'</font>',styleN))
                     
-                    f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
+                    f = Frame(14.1*cm, (-1.3+rightSpacing)*cm, 6.8*cm, 3.4*cm, showBoundary=0)
                     f.addFromList(profLic,pdf)
             
             pdf.setFillColorRGB(255,255,255) 
@@ -8680,41 +8882,53 @@ def pdf_gen(request,userId=None):
             if not webSite:
                 webSite ='NA'
             degreeType =x[93]
+            estSavings =x[94]
+            if not estSavings:
+                estSavings ='NA'
             ####image data
             
-            imageId            =x[94]
-            person_image            =x[95]
-            home_image            =x[96]
-            name            =x[97]
-            dateAndTime            =x[98]
-            personImageFlag            =x[99]
-            homeImageFlag            =x[100]
-            # print(person_image)
+            imageId            =x[95]
+            person_image            =x[96]
+            home_image            =x[97]
+            name            =x[98]
+            dateAndTime            =x[99]
+            personImageFlag            =x[100]
+            homeImageFlag            =x[101]
             profileString = person_image.decode()
+            if personImageFlag == 2:
+                img = imread(io.BytesIO(base64.b64decode(profileString)))
+                 # show image
+                plt.figure()
+                plt.imshow(img, cmap="gray")
+                
+                cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("profileImage.jpg", cv2_img)
+                plt.show()
+            else:
+                profileString = profileString[22:]
 
-            # reconstruct image as an numpy array
-            img = imread(io.BytesIO(base64.b64decode(profileString)))
+                print(profileString)
 
-            # show image
-            plt.figure()
-            plt.imshow(img, cmap="gray")
-            
-            cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("profileImage.jpg", cv2_img)
-            plt.show()
-            
+                im = Image.open(BytesIO(base64.b64decode(profileString)))
+                im.save('profileImage.jpg', 'PNG')
+           
             houseString = home_image.decode()
+            if homeImageFlag == 2:
+                # reconstruct image as an numpy array
+                img1 = imread(io.BytesIO(base64.b64decode(houseString)))
 
-            # reconstruct image as an numpy array
-            img1 = imread(io.BytesIO(base64.b64decode(houseString)))
-
-            # show image
-            plt.figure()
-            plt.imshow(img1, cmap="gray")
-            
-            cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("houseImage.jpg", cv2_img1)
-            plt.show()
+                # show image
+                plt.figure()
+                plt.imshow(img1, cmap="gray")
+                
+                cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("houseImage.jpg", cv2_img1)
+                plt.show()
+            else:
+                houseString = houseString[22:]
+                
+                im1 = Image.open(BytesIO(base64.b64decode(houseString)))
+                im1.save('houseImage.jpg', 'PNG')
         
         if Address2 == 'NA' and Address3 == 'NA':
             Addr = 1
@@ -9179,11 +9393,27 @@ def pdf_gen(request,userId=None):
                 lineMargin1 = 5.5
                 lineMargin2 = 16
                 salImgMargin = 8.2
+                estSal = 6.5
+                estSalImgMargin = 5.8
+                estSalVal = 13
+                savingIcon = 4.3
+                savingRight = 5.3
+                savingTitle = 5.5
+                savingLeft = 13
+                savingVal = 13.6
             else:
                noImageMargin = 12.5
                lineMargin1 = 2
                lineMargin2 = 10.5
                salImgMargin = 3.3
+               estSal = 2
+               estSalImgMargin = 1.25
+               estSalVal = 8.5
+               savingIcon = 0.25
+               savingRight = 1.1
+               savingTitle = 1.3
+               savingLeft = 8.8
+               savingVal = 9.3
                 
             
             if JOB1 == 'NA' and comp1 == 'NA' and JOB2 == 'NA' and comp2 == 'NA' and prevJOB1 == 'NA' and prevJOB2 == 'NA' and prevComp1 == 'NA' and prevComp2 == 'NA': 
@@ -10136,25 +10366,47 @@ def pdf_gen(request,userId=None):
                         Dep_Salary = custom_format_currency(38500, 'USD', locale='en_US')
                     
                 
+            if estSavings !='NA':
+                if Per_Salary !='NA':
+                    pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, 24.7*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawString((estSal)*cm,24.9*cm,"ESTIMATED YEARLY SALARY:  ")
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString(estSalVal*cm,24.9*cm,Per_Salary);
                 
-            if JOB1 != 'NA' and Per_Salary !='NA':
-                pdf.setFont('VeraBd', 11);
-                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                pdf.setFont('VeraBd', 11);
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, 23.85*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, 23.9*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, 23.9*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString(savingTitle*cm,24.1*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
                 pdf.setFillColorRGB(255,0,0)
+                pdf.drawString(savingVal*cm,24.1*cm,estSavings);
+                # pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY:  "+Per_Salary);
+                # estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                # pdf.drawCentredString((noImageMargin/2)*cm,24.4*cm,"ESTIMATED RETIREMENT SAVINGS:  "+estSavings);
+            else:       
+                if JOB1 != 'NA' and Per_Salary !='NA':
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                    pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.setFillColorRGB(255,0,0)
+                    
+                    pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+                pdf.setFillColorRGB(0,0,0)
                 
-                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
-            pdf.setFillColorRGB(0,0,0)
-            
-            if prevJOB1 != 'NA' and Per_Salary !='NA':
-                pdf.setFont('VeraBd', 11);
-                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                pdf.setFont('VeraBd', 11);
-                pdf.setFillColorRGB(255,0,0)
-                
-                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+                if prevJOB1 != 'NA' and Per_Salary !='NA':
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                    pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.setFillColorRGB(255,0,0)
+                    
+                    pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
             pdf.setFillColorRGB(0,0,0)
             
             
@@ -10427,12 +10679,15 @@ def pdf_gen(request,userId=None):
                     pdf.setFillColorRGB(0.5,0.2,0.1)
                     if spedu1 != 'NA':
                         spUni1=spUni1+','
+                        pdf.setFont('Vera', 9);
                         pdf.drawString(2.3*cm,(12.75+qualiHeight)*cm,spUni1.upper());
                     else:
+                        pdf.setFont('Vera', 9);
                         pdf.drawString(2.3*cm,(12.55+qualiHeight)*cm,spUni1.upper());
                     pdf.setFillColorRGB(0,0,0)
                 if spedu1 !="NA":
                     pdf.drawImage('/home/pdfImages/edu.png',1.25*cm,(12.3+qualiHeight)*cm,0.9*cm,0.7*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.setFont('Vera', 9);
                     pdf.drawString(2.3*cm,(12.35+qualiHeight)*cm,spedu1);
                
                 
@@ -10446,15 +10701,21 @@ def pdf_gen(request,userId=None):
                     else:
                         pdf.drawString(2.3*cm,(11.5+qualiHeight+spEduHt)*cm,Dep_Designation);
                     
-                    
-                    if Dep_Salary != 'NA':
-                        pdf.setFont('VeraBd', 8);
-                        pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
-                        pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                        pdf.setFont('VeraBd', 8);
-                        pdf.setFillColorRGB(255,0,0)
-                        pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
-                 
+                    if estSavings !='NA': 
+                        if Dep_Salary !='NA':
+                            pdf.drawImage('/home/pdfImages/salaryNew.png', 1.5*cm, (10.2+qualiHeight+spEduHt)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                            pdf.setFont('VeraBd', 11);
+                            pdf.drawString(2*cm,(10.4+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY:  ")
+                            pdf.setFillColorRGB(255,0,0)
+                            pdf.drawString(8.5*cm,(10.4+qualiHeight+spEduHt)*cm,Dep_Salary);
+                    else:
+                        if Dep_Salary != 'NA':
+                            pdf.setFont('VeraBd', 8);
+                            pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
+                            pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                            pdf.setFont('VeraBd', 8);
+                            pdf.setFillColorRGB(255,0,0)
+                            pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
                  
                 if Dep_Employment != 'NA':
                     pdf.drawImage('/home/pdfImages/work.png',1.5*cm,(11.3+qualiHeight+spEduHt)*cm,0.6*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
@@ -10506,21 +10767,26 @@ def pdf_gen(request,userId=None):
                     f = Frame(2*cm, (6.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt)*cm, 8.05*cm, 2.5*cm, showBoundary=0)
                     f.addFromList(ld_url_right,pdf)
                 
-                # if spBank1 != 'NA' and spouseBankruptDate != 'NA':
-                if spBank1 != 'NA' :
+                # if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' and spouseBankruptDate != 'NA':
+                if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.35+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/checked.png',8*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(8.9*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1);
+                    # pdf.drawString(13.8*cm,(8.3+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
+                    
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
-                    pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
+                    # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
                     
-                    pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
+                    # pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    # pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
                     
                     # if spBankDet1 != 'NA':
                         # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
+       
        
                 ############################# About Family ################################
                  
@@ -11480,19 +11746,19 @@ def pdf_gen(request,userId=None):
             if corDate1 == 'NA' and corDate2 == 'NA':
                 corpHght = 2
             elif corDate1 != 'NA' and corDate2 == 'NA':
-                corpHght = 0.6
+                corpHght = 0.8
                 
             else:
-                corpHght = 0
+                corpHght = 0.5
             
-            rightSpacing = socialHght + corpHght-1.2
+            rightSpacing = socialHght + corpHght-2
             
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 11);
             pdf.drawString(13.75*cm,(10.5+rightSpacing)*cm,'____________________________________')
             
             pdf.drawString(13.8*cm,(9.7+rightSpacing)*cm,'POSSIBLE JUDGMENTS');
-            if judments !='NA':
+            if judments !='No':
                 pdf.drawImage('/home/pdfImages/checked.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
             else:
                 pdf.drawImage('/home/pdfImages/blank.png',18.9*cm,(9.5+rightSpacing)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
@@ -11522,7 +11788,7 @@ def pdf_gen(request,userId=None):
             if len(licences) == 0 and profLicence == 'NA':
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
-                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licences')
+                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
             
             else:
              
@@ -11555,16 +11821,16 @@ def pdf_gen(request,userId=None):
                         pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                         pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
-                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
+                    pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                     profLic = []
                     pdf.setFillColorRGB(0,0,0)
                     raw_addr = profLicence.title()
-                    address = raw_addr[0:35]+'<br/>'+raw_addr[35:60]+'<br/>'+raw_addr[60:]
+                    address = raw_addr[0:150]+'<br/>'+raw_addr[150:300]+'<br/>'+raw_addr[300:450]+'<br/>'+raw_addr[450:600]+'<br/>'+raw_addr[600:]
                     # address = '<link href="' + raw_addr + '">' + address + '</link>'
                     profLic.append(Paragraph('<font color="white">'+address+'</font>',styleN))
                     
-                    f = Frame(14.1*cm, (0.5+rightSpacing)*cm, 12*cm, 1.8*cm, showBoundary=0)
+                    f = Frame(14.1*cm, (-1.3+rightSpacing)*cm, 6.8*cm, 3.4*cm, showBoundary=0)
                     f.addFromList(profLic,pdf)
             
             pdf.setFillColorRGB(255,255,255) 
@@ -12033,41 +12299,53 @@ def template4(request,userId=None):
             if not webSite:
                 webSite ='NA'
             degreeType =x[93]
+            estSavings =x[94]
+            if not estSavings:
+                estSavings ='NA'
             ####image data
             
-            imageId            =x[94]
-            person_image            =x[95]
-            home_image            =x[96]
-            name            =x[97]
-            dateAndTime            =x[98]
-            personImageFlag            =x[99]
-            homeImageFlag            =x[100]
-            # print(person_image)
+            imageId            =x[95]
+            person_image            =x[96]
+            home_image            =x[97]
+            name            =x[98]
+            dateAndTime            =x[99]
+            personImageFlag            =x[100]
+            homeImageFlag            =x[101]
             profileString = person_image.decode()
+            if personImageFlag == 2:
+                img = imread(io.BytesIO(base64.b64decode(profileString)))
+                 # show image
+                plt.figure()
+                plt.imshow(img, cmap="gray")
+                
+                cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("profileImage.jpg", cv2_img)
+                plt.show()
+            else:
+                profileString = profileString[22:]
 
-            # reconstruct image as an numpy array
-            img = imread(io.BytesIO(base64.b64decode(profileString)))
+                print(profileString)
 
-            # show image
-            plt.figure()
-            plt.imshow(img, cmap="gray")
-            
-            cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("profileImage.jpg", cv2_img)
-            plt.show()
-            
+                im = Image.open(BytesIO(base64.b64decode(profileString)))
+                im.save('profileImage.jpg', 'PNG')
+           
             houseString = home_image.decode()
+            if homeImageFlag == 2:
+                # reconstruct image as an numpy array
+                img1 = imread(io.BytesIO(base64.b64decode(houseString)))
 
-            # reconstruct image as an numpy array
-            img1 = imread(io.BytesIO(base64.b64decode(houseString)))
-
-            # show image
-            plt.figure()
-            plt.imshow(img1, cmap="gray")
-            
-            cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
-            cv2.imwrite("houseImage.jpg", cv2_img1)
-            plt.show()
+                # show image
+                plt.figure()
+                plt.imshow(img1, cmap="gray")
+                
+                cv2_img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2BGR)
+                cv2.imwrite("houseImage.jpg", cv2_img1)
+                plt.show()
+            else:
+                houseString = houseString[22:]
+                
+                im1 = Image.open(BytesIO(base64.b64decode(houseString)))
+                im1.save('houseImage.jpg', 'PNG')
         
         if Address2 == 'NA' and Address3 == 'NA':
             Addr = 1
@@ -12532,11 +12810,27 @@ def template4(request,userId=None):
                 lineMargin1 = 5.5
                 lineMargin2 = 16
                 salImgMargin = 8.2
+                estSal = 6.5
+                estSalImgMargin = 5.8
+                estSalVal = 13
+                savingIcon = 4.3
+                savingRight = 5.3
+                savingTitle = 5.5
+                savingLeft = 13
+                savingVal = 13.6
             else:
                noImageMargin = 12.5
                lineMargin1 = 2
                lineMargin2 = 10.5
                salImgMargin = 3.3
+               estSal = 2
+               estSalImgMargin = 1.25
+               estSalVal = 8.5
+               savingIcon = 0.25
+               savingRight = 1.1
+               savingTitle = 1.3
+               savingLeft = 8.8
+               savingVal = 9.3
                 
             
             if JOB1 == 'NA' and comp1 == 'NA' and JOB2 == 'NA' and comp2 == 'NA' and prevJOB1 == 'NA' and prevJOB2 == 'NA' and prevComp1 == 'NA' and prevComp2 == 'NA': 
@@ -13488,27 +13782,51 @@ def template4(request,userId=None):
                         Per_Salary = custom_format_currency(68500, 'USD', locale='en_US')
                         Dep_Salary = custom_format_currency(38500, 'USD', locale='en_US')
                     
+            if estSavings !='NA':
+                if Per_Salary !='NA':
+                    pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, 24.7*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawString((estSal)*cm,24.9*cm,"ESTIMATED YEARLY SALARY:  ")
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString(estSalVal*cm,24.9*cm,Per_Salary);
                 
-                
-            if JOB1 != 'NA' and Per_Salary !='NA':
-                pdf.setFont('VeraBd', 11);
-                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                pdf.setFont('VeraBd', 11);
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, 23.85*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, 23.9*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, 23.9*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString(savingTitle*cm,24.1*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
                 pdf.setFillColorRGB(255,0,0)
+                pdf.drawString(savingVal*cm,24.1*cm,estSavings);
+                # pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY:  "+Per_Salary);
+                # estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                # pdf.drawCentredString((noImageMargin/2)*cm,24.4*cm,"ESTIMATED RETIREMENT SAVINGS:  "+estSavings);
                 
-                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+            else:
+                if JOB1 != 'NA' and Per_Salary !='NA':
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                    pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.setFillColorRGB(255,0,0)
+                    
+                    pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
+                pdf.setFillColorRGB(0,0,0)
+                
+                if prevJOB1 != 'NA' and Per_Salary !='NA':
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
+                    pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.setFillColorRGB(255,0,0)
+                    
+                    pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
             pdf.setFillColorRGB(0,0,0)
+                
             
-            if prevJOB1 != 'NA' and Per_Salary !='NA':
-                pdf.setFont('VeraBd', 11);
-                pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY");
-                pdf.drawImage('/home/pdfImages/design1/salary.png', salImgMargin*cm, 24.05*cm, width=5.8*cm, height=.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                pdf.setFont('VeraBd', 11);
-                pdf.setFillColorRGB(255,0,0)
-                
-                pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
-            pdf.setFillColorRGB(0,0,0)
             
             
             
@@ -13792,21 +14110,28 @@ def template4(request,userId=None):
                 if Dep_Designation != 'NA':
                     pdf.drawImage('/home/pdfImages/work.png',1.5*cm,(11.3+qualiHeight+spEduHt)*cm,0.6*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
                     pdf.setFont('Vera', 10);
-                    pdf.setFillColorRGB(0,0.5,0.5)
+                    
                     
                     if Dep_Employment != 'NA':
                         pdf.drawString(2.3*cm,(11.7+qualiHeight+spEduHt)*cm,Dep_Designation+',');
                     else:
                         pdf.drawString(2.3*cm,(11.5+qualiHeight+spEduHt)*cm,Dep_Designation);
                     
-                    
-                    if Dep_Salary != 'NA':
-                        pdf.setFont('VeraBd', 8);
-                        pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
-                        pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                        pdf.setFont('VeraBd', 8);
+                    if estSavings !='NA': 
+                        pdf.drawImage('/home/pdfImages/salaryNew.png', 1.5*cm, (10.2+qualiHeight+spEduHt)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                        pdf.setFont('VeraBd', 11);
+                        pdf.drawString(2*cm,(10.4+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY:  ")
                         pdf.setFillColorRGB(255,0,0)
-                        pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
+                        pdf.drawString(8.5*cm,(10.4+qualiHeight+spEduHt)*cm,Per_Salary);
+                    else:
+                        if Dep_Salary != 'NA':
+                            pdf.setFillColorRGB(0,0.5,0.5)
+                            pdf.setFont('VeraBd', 8);
+                            pdf.drawCentredString((12.5/2)*cm,(10.8+qualiHeight+spEduHt)*cm,"ESTIMATED YEARLY SALARY");
+                            pdf.drawImage('/home/pdfImages/design1/salary.png', 4.2*cm, (9.8+qualiHeight+spEduHt)*cm, width=4.2*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                            pdf.setFont('VeraBd', 8);
+                            pdf.setFillColorRGB(255,0,0)
+                            pdf.drawCentredString((12.5/2)*cm,(10.1+qualiHeight+spEduHt)*cm,Dep_Salary);
                  
                  
                 if Dep_Employment != 'NA':
@@ -13859,18 +14184,22 @@ def template4(request,userId=None):
                     f = Frame(2*cm, (6.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt)*cm, 8.05*cm, 2.5*cm, showBoundary=0)
                     f.addFromList(ld_url_right,pdf)
                 
-                # if spBank1 != 'NA' and spouseBankruptDate != 'NA':
-                if spBank1 != 'NA' :
+                # if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' and spouseBankruptDate != 'NA':
+                if spBank1 != 'NA' and spBank1 != 'None' and spBank1 != 'None' and spBank1 != 'None' :
                     
                     pdf.setFont('Vera', 12);
-                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.6+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.2*cm,(7.7+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/spouseBank.png',1.5*cm,(7.35+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.5*cm,0.5*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(2.2*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'POSSIBLE BANKRUPTCIES');
+                    pdf.drawImage('/home/pdfImages/checked.png',8*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.8*cm,0.8*cm,preserveAspectRatio=False, mask='auto');
+                    pdf.drawString(8.9*cm,(7.4+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1);
+                    # pdf.drawString(13.8*cm,(8.3+rightSpacing)*cm,'POSSIBLE BANKRUPTCIES');
+                    
                     pdf.setFont('Vera', 9);      
                     # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year    Filing Status');
-                    pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
+                    # pdf.drawString(2.25*cm,(7.2+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,'Year');
                     
-                    pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
+                    # pdf.drawImage('/home/pdfImages/arrow_blue.png',1.75*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                    # pdf.drawString(2.25*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBank1)
                     
                     # if spBankDet1 != 'NA':
                         # pdf.drawString(3.35*cm,(6.8+qualiHeight+spEduHt+spWorkHt+depSalHt+depFbHt+depLinkHt)*cm,spBankDet1)
@@ -14495,7 +14824,7 @@ def template4(request,userId=None):
                     pdf.drawImage('/home/pdfImages/Mail.png',13.5*cm,13.8*cm,1*cm,1*cm,preserveAspectRatio=False, mask='auto');
                     gmail_url = []
                     raw_addr3 = per_Email
-                    address3 = raw_addr3[0:32]+'<br/>'+raw_addr3[33:64]+'<br/>'+raw_addr3[65:]
+                    address3 = raw_addr3[0:30]+'<br/>'+raw_addr3[30:60]+'<br/>'+raw_addr3[60:]
                     address3 = '<link href="mailto:' + raw_addr3 + '">' + address3 + '</link>'
                     gmail_url.append(Paragraph('<font color="white">'+address3+'</font>',styleN))
                     f = Frame(14.5*cm, 13*cm, 6*cm, 1.8*cm, showBoundary=0)
@@ -14830,12 +15159,12 @@ def template4(request,userId=None):
             if corDate1 == 'NA' and corDate2 == 'NA':
                 corpHght = 2
             elif corDate1 != 'NA' and corDate2 == 'NA':
-                corpHght = 0.6
+                corpHght = 0.8
                 
             else:
                 corpHght = 0
             
-            rightSpacing = socialHght + corpHght-1.2
+            rightSpacing = socialHght + corpHght-1.7
             
             pdf.setFillColorRGB(255,255,255)
             pdf.setFont('Vera', 11);
@@ -14875,7 +15204,7 @@ def template4(request,userId=None):
             if len(licences) == 0 and profLicence == 'NA':
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
-                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licences')
+                pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
             
             else:
              
@@ -14909,7 +15238,7 @@ def template4(request,userId=None):
                         pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.2+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licence:")
+                    pdf.drawString(14.25*cm,(2.2+rightSpacing)*cm,"Professional Licenses:")
                     profLic = []
                     pdf.setFillColorRGB(0,0,0)
                     raw_addr = profLicence.title()
@@ -14942,8 +15271,7 @@ def template4(request,userId=None):
                     return response
             else:
                 return HttpResponseNotFound('The requested pdf was not found in our server.')
-  
-            
+              
 def sendMail(request,userId=None):
         userId = request.GET["userId"]
         
@@ -14963,7 +15291,7 @@ def sendMail(request,userId=None):
                     msg = MIMEText("""No Data found for the Lead Name: """+x[0])
                     sender = 'bss@greettech.com'
                     # recipients = 'ravikiran@greettech.com,ravikiran6763@gmail.com'
-                    recipients = 'jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,sendil@greettech.com,at@greettech.com'
+                    recipients = 'jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,at@greettech.com'
                     msg['Subject'] = "No Data Found"
                     msg['From'] = sender
                     msg['To'] = recipients
@@ -14999,7 +15327,7 @@ def sendMail(request,userId=None):
                             # msg["Cc"] = "kumar@greettech.com,pratish@greettech.com"
                              
                             msg['To'] = "rburnett@franchampion.com"
-                            msg["Cc"] = "jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,sendil@greettech.com,at@greettech.com"
+                            msg["Cc"] = "jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,at@greettech.com"
                            
                                                         
                             # The MIME types for text/html
