@@ -557,7 +557,7 @@ def template1(request,userId=None):
             else:
                 profileString = profileString[22:]
 
-                print(profileString)
+                # print(profileString)
 
                 im = Image.open(BytesIO(base64.b64decode(profileString)))
                 im.save('profileImage.jpg', 'PNG')
@@ -1176,7 +1176,7 @@ def template1(request,userId=None):
             shiftSaving = 0
         if Addr == 1:
             if estSavings !='NA':
-                pdf.drawImage('/home/pdfImages/personHome.png',(4.7)*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                pdf.drawImage('/home/pdfImages/personHome.png',(4.5)*cm,(26.9)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
                 estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
                 pdf.setFillColorRGB(0,0,0)
                 pdf.drawImage('/home/pdfImages/savingsIcon.png', (0.25+shiftSaving)*cm, 27.6*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
@@ -1189,18 +1189,18 @@ def template1(request,userId=None):
                 pdf.drawString((9.5+shiftSaving)*cm,27.9*cm,estSavings);
                 pdf.setFillColorRGB(0,0,0)
                 
-                pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(26.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+                pdf.drawImage('/home/pdfImages/personHome.png',4.5*cm,(26.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
                 if houseType =='Rented Apartment' or houseType =='Apartment':
-                    pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',0.75*cm,(21.75)*cm,10.5*cm,5*cm,preserveAspectRatio=False);
                     # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
                 else:
-                    pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,5*cm,preserveAspectRatio=False);
+                    pdf.drawImage('houseImage.jpg',1*cm,(21.7)*cm,10.5*cm,5*cm,preserveAspectRatio=False);
                 
-                pdf.roundRect(2.75*cm, (21.75)*cm, 7.5*cm, 5*cm, 4, stroke=1, fill=0);
+                pdf.roundRect(1*cm, (21.75)*cm, 10.5*cm, 5*cm, 4, stroke=1, fill=0);
             else:
                 pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
                 if houseType =='Rented Apartment' or houseType =='Apartment':
-                    pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                    pdf.drawImage('/home/pdfImages/rentedApt.png',2*cm,(21.75)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
                     # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
                 else:
                     pdf.drawImage('houseImage.jpg',2.75*cm,(21.7)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
@@ -1215,19 +1215,25 @@ def template1(request,userId=None):
                 pdf.drawImage('/home/pdfImages/rented.png',5.25*cm,(20.8)*cm,2.75*cm,0.6*cm,preserveAspectRatio=False);
             if houseType =='For Sale':  
                 pdf.drawImage('/home/pdfImages/sale.png',5.25*cm,(20.8)*cm,2.75*cm,0.8*cm,preserveAspectRatio=False);
-                
-            if homeValu1 !='$0':
             
-                pdf.drawImage('/home/pdfImages/dot.png',1*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.setFont('Vera', 8);
-                pdf.drawCentredString((6.25/2)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
-                pdf.setFont('Vera', 8);
-                pdf.drawCentredString((6.25/2)*cm,(18.8)*cm,homeValu1);
+            if homeEqu1 == '$0':
+                shiftHomeVal=3.25
+                eqFontSize=10
+            else:
+                shiftHomeVal=0
+                eqFontSize=8 
+                pdf.drawImage('/home/pdfImages/dot.png',(1+shiftHomeVal)*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            if homeValu1 !='$0':
+                pdf.setFont('Vera', eqFontSize);
+                pdf.drawCentredString((3.125+shiftHomeVal)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
+                pdf.setFont('Vera', eqFontSize);
+                pdf.drawCentredString((3.125+shiftHomeVal)*cm,(18.8)*cm,homeValu1);
 
-                pdf.setLineWidth(0.5);
-                pdf.line(6.25*cm,(19.5)*cm,6.25*cm,(18.65)*cm)
+                
             
             if homeEqu1 != '$0':
+                pdf.setLineWidth(0.5);
+                pdf.line(6.25*cm,(19.5)*cm,6.25*cm,(18.65)*cm)
                 pdf.drawImage('/home/pdfImages/dot.png',7.20*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawCentredString(9.375*cm,(19.2)*cm,"ESTIMATED HOME EQUITY");
                 pdf.setFont('Vera', 8);
@@ -2530,11 +2536,11 @@ def template1(request,userId=None):
                 # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                 # print('len:',len(CHOdate1))
-                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
             if corDate2 !='NA':
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
-                pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
+                pdf.drawString(15.5*cm,(10.78+rightSpacing)*cm,corpFile2)
         
             # extraHeight=2
         
@@ -2549,7 +2555,7 @@ def template1(request,userId=None):
             pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
             pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
-            pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+            pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
         
         
         rightSpacing = 0
@@ -2603,12 +2609,12 @@ def template1(request,userId=None):
             pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
         
         else:
-         
+                
             if len(licences) != 0:
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.setFont('Vera', 9);
+                pdf.setFont('Vera', 9)
                 if licence1 !='NA':
                     pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
                 if licence2 !='NA':
@@ -2618,21 +2624,21 @@ def template1(request,userId=None):
             # print('len(licences)',len(licences))
             
             if len(licences) == 0:
-                licenHt=1.5
+                licenHt=0
             elif len(licences) == 1 or len(licences) == 2:   
                 licenHt=1
             elif len(licences) == 3 or len(licences) == 4:   
                 licenHt=0.5
             
-            else:
-                licenHt=0
-            # rightSpacing = socialHght + corpHght  + licenHt-1
+            rightSpacing = rightSpacing+licenHt
             # print('rightSpacing5',rightSpacing)
+            print('length:',licenHt)
             if profLicence != 'NA':
                 if len(licences) == 0:
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.setFont('Vera', 12);
                     pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
+                pdf.setFont('Vera', 9);
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                 profLic = []
@@ -3117,7 +3123,7 @@ def template2(request,userId=None):
             else:
                 profileString = profileString[22:]
 
-                print(profileString)
+                # print(profileString)
 
                 im = Image.open(BytesIO(base64.b64decode(profileString)))
                 im.save('profileImage.jpg', 'PNG')
@@ -4621,29 +4627,18 @@ def template2(request,userId=None):
                 pdf.drawCentredString((noImageMargin/2)*cm,24.29*cm,Per_Salary);
         pdf.setFillColorRGB(0,0,0)
         
-        # if Address1 != 'NA':
-        
-        # if Addr == 1 and JOB1 == 'NA' and comp1 == 'NA' and JOB2 == 'NA' and comp2 == 'NA' and prevJOB1 == 'NA' and prevJOB2 == 'NA' and prevComp1 == 'NA' and prevComp2 == 'NA': 
-            # print('ADJUST SINGLE HOME ')
-            # Addr = 3
-        
-        # print('Addr',Addr)
-        # print('JOB1',JOB1)
-        # print('comp1',comp1)
-        
-        
         noSpouseHt = 4.5
         
         if Addr == 1:
-            pdf.drawImage('/home/pdfImages/personHome.png',4.7*cm,(27.8-noSpouseHt)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
+            pdf.drawImage('/home/pdfImages/personHome.png',4.5*cm,(27.8-noSpouseHt)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
             
             if houseType =='Rented Apartment' or houseType =='Apartment':
-                pdf.drawImage('/home/pdfImages/rentedApt.png',2.75*cm,(21.75-noSpouseHt)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                pdf.drawImage('/home/pdfImages/rentedApt.png',1*cm,(21.75-noSpouseHt)*cm,10.75*cm,6*cm,preserveAspectRatio=False);
                 # pdf.drawImage('',5.7*cm,(22.8)*cm,4*cm,0.5*cm,preserveAspectRatio=False);
             else:
-                pdf.drawImage('houseImage.jpg',2.75*cm,(21.7-noSpouseHt)*cm,7.5*cm,6*cm,preserveAspectRatio=False);
+                pdf.drawImage('houseImage.jpg',1*cm,(21.7-noSpouseHt)*cm,10.75*cm,6*cm,preserveAspectRatio=False);
             
-            pdf.roundRect(2.75*cm, (21.75-noSpouseHt)*cm, 7.5*cm, 6*cm, 4, stroke=1, fill=0);
+            pdf.roundRect(1*cm, (21.75-noSpouseHt)*cm, 10.75*cm, 6*cm, 4, stroke=1, fill=0);
            
             pdf.setFont('VeraBd', 9);
             
@@ -4660,19 +4655,24 @@ def template2(request,userId=None):
                 pdf.drawImage('/home/pdfImages/rented.png',5.25*cm,(20.8-noSpouseHt)*cm,2.75*cm,0.6*cm,preserveAspectRatio=False);
             if houseType =='For Sale':  
                 pdf.drawImage('/home/pdfImages/sale.png',5.25*cm,(20.8-noSpouseHt)*cm,2.75*cm,0.8*cm,preserveAspectRatio=False);
-                
-            if homeValu1 !='$0':
             
-                pdf.drawImage('/home/pdfImages/dot.png',1*cm,(19.2-noSpouseHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.setFont('Vera', 8);
-                pdf.drawCentredString((6.25/2)*cm,(19.2-noSpouseHt)*cm,"ESTIMATED HOME VALUE");
-                pdf.setFont('Vera', 8);
-                pdf.drawCentredString((6.25/2)*cm,(18.8-noSpouseHt)*cm,homeValu1);
 
+            if homeEqu1 == '$0':
+                shiftHomeVal=3.25
+                eqFontSize=10
+            else:
+                shiftHomeVal=0
+                eqFontSize=8 
+                pdf.drawImage('/home/pdfImages/dot.png',(1+shiftHomeVal)*cm,(19.2-noSpouseHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+            if homeValu1 !='$0':
+                pdf.setFont('Vera', eqFontSize);
+                pdf.drawCentredString((3.125+shiftHomeVal)*cm,(19.2-noSpouseHt)*cm,"ESTIMATED HOME VALUE");
+                pdf.setFont('Vera', eqFontSize);
+                pdf.drawCentredString((3.125+shiftHomeVal)*cm,(18.8-noSpouseHt)*cm,homeValu1);
+
+            if homeEqu1 != '$0':
                 pdf.setLineWidth(0.5);
                 pdf.line(6.25*cm,(19.5-noSpouseHt)*cm,6.25*cm,(18.65-noSpouseHt)*cm)
-            
-            if homeEqu1 != '$0':
                 pdf.drawImage('/home/pdfImages/dot.png',7.20*cm,(19.2-noSpouseHt)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawCentredString(9.375*cm,(19.2-noSpouseHt)*cm,"ESTIMATED HOME EQUITY");
                 pdf.setFont('Vera', 8);
@@ -5749,11 +5749,11 @@ def template2(request,userId=None):
                 # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                 # print('len:',len(CHOdate1))
-                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
             if corDate2 !='NA':
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
-                pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
+                pdf.drawString(15.5*cm,(10.78+rightSpacing)*cm,corpFile2)
         
             # extraHeight=2
         
@@ -5768,7 +5768,7 @@ def template2(request,userId=None):
             pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
             
             pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
-            pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+            pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
         
         
         rightSpacing = 0
@@ -5822,12 +5822,12 @@ def template2(request,userId=None):
             pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
         
         else:
-         
+                
             if len(licences) != 0:
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                pdf.setFont('Vera', 9);
+                pdf.setFont('Vera', 9)
                 if licence1 !='NA':
                     pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
                 if licence2 !='NA':
@@ -5837,21 +5837,21 @@ def template2(request,userId=None):
             # print('len(licences)',len(licences))
             
             if len(licences) == 0:
-                licenHt=1.5
+                licenHt=0
             elif len(licences) == 1 or len(licences) == 2:   
                 licenHt=1
             elif len(licences) == 3 or len(licences) == 4:   
                 licenHt=0.5
             
-            else:
-                licenHt=0
-            # rightSpacing = socialHght + corpHght  + licenHt-1
+            rightSpacing = rightSpacing+licenHt
             # print('rightSpacing5',rightSpacing)
+            print('length:',licenHt)
             if profLicence != 'NA':
                 if len(licences) == 0:
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.setFont('Vera', 12);
                     pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
+                pdf.setFont('Vera', 9);
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                 profLic = []
@@ -6334,7 +6334,7 @@ def template3(request,userId=None):
             else:
                 profileString = profileString[22:]
 
-                print(profileString)
+                # print(profileString)
 
                 im = Image.open(BytesIO(base64.b64decode(profileString)))
                 im.save('profileImage.jpg', 'PNG')
@@ -6987,18 +6987,25 @@ def template3(request,userId=None):
                 if houseType =='For Sale':  
                     pdf.drawImage('/home/pdfImages/sale.png',5.25*cm,(20.8)*cm,2.75*cm,0.8*cm,preserveAspectRatio=False);
                 
-                if homeValu1 !='$0':
                 
-                    pdf.drawImage('/home/pdfImages/dot.png',1*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.setFont('Vera', 8);
-                    pdf.drawCentredString((6.25/2)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
-                    pdf.setFont('Vera', 8);
-                    pdf.drawCentredString((6.25/2)*cm,(18.8)*cm,homeValu1);
+                if homeEqu1 == '$0':
+                    shiftHomeVal=3.25
+                    eqFontSize=10
+                else:
+                    shiftHomeVal=0
+                    eqFontSize=8
+                    pdf.drawImage('/home/pdfImages/dot.png',(1+shiftHomeVal)*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                print('shiftHomeVal',shiftHomeVal)
+                
+                if homeValu1 !='$0':
+                    pdf.setFont('Vera', eqFontSize);
+                    pdf.drawCentredString((3.125+shiftHomeVal)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
+                    pdf.setFont('Vera', eqFontSize);
+                    pdf.drawCentredString((3.125+shiftHomeVal)*cm,(18.8)*cm,homeValu1);
 
+                if homeEqu1 != '$0':
                     pdf.setLineWidth(0.5);
                     pdf.line(6.25*cm,(19.5)*cm,6.25*cm,(18.65)*cm)
-                
-                if homeEqu1 != '$0':
                     pdf.drawImage('/home/pdfImages/dot.png',7.20*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawCentredString(9.375*cm,(19.2)*cm,"ESTIMATED HOME EQUITY");
                     pdf.setFont('Vera', 8);
@@ -7215,7 +7222,7 @@ def template3(request,userId=None):
                 spouseHeight= 0;
             
             if vehicle1 == 'NA' and vehicle2 == 'NA' and vehicle3 == 'NA' :
-                vehicleHeight=2
+                vehicleHeight=0
             else:
                 vehicleHeight = 0
             
@@ -8301,11 +8308,11 @@ def template3(request,userId=None):
                     # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                     # print('len:',len(CHOdate1))
-                    pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                    pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
                 if corDate2 !='NA':
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
-                    pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
+                    pdf.drawString(15.5*cm,(10.78+rightSpacing)*cm,corpFile2)
             
                 # extraHeight=2
             
@@ -8320,7 +8327,7 @@ def template3(request,userId=None):
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
-                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
             
             
             rightSpacing = 0
@@ -8374,12 +8381,12 @@ def template3(request,userId=None):
                 pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
             
             else:
-             
+                
                 if len(licences) != 0:
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.setFont('Vera', 9);
+                    pdf.setFont('Vera', 9)
                     if licence1 !='NA':
                         pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
                     if licence2 !='NA':
@@ -8389,21 +8396,21 @@ def template3(request,userId=None):
                 # print('len(licences)',len(licences))
                 
                 if len(licences) == 0:
-                    licenHt=1.5
+                    licenHt=0
                 elif len(licences) == 1 or len(licences) == 2:   
                     licenHt=1
                 elif len(licences) == 3 or len(licences) == 4:   
                     licenHt=0.5
                 
-                else:
-                    licenHt=0
-                # rightSpacing = socialHght + corpHght  + licenHt-1
+                rightSpacing = rightSpacing+licenHt
                 # print('rightSpacing5',rightSpacing)
+                print('length:',licenHt)
                 if profLicence != 'NA':
                     if len(licences) == 0:
                         pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                         pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
+                    pdf.setFont('Vera', 9);
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                     profLic = []
@@ -8907,7 +8914,7 @@ def pdf_gen(request,userId=None):
             else:
                 profileString = profileString[22:]
 
-                print(profileString)
+                # print(profileString)
 
                 im = Image.open(BytesIO(base64.b64decode(profileString)))
                 im.save('profileImage.jpg', 'PNG')
@@ -10433,18 +10440,25 @@ def pdf_gen(request,userId=None):
                 if houseType =='For Sale':  
                     pdf.drawImage('/home/pdfImages/sale.png',5.7*cm,(20.8)*cm,2.75*cm,0.8*cm,preserveAspectRatio=False);
                     
+                if homeEqu1 == '$0':
+                    shiftHomeVal=3.25
+                    eqFontSize=10
+                else:
+                    shiftHomeVal=0
+                    eqFontSize=8
+                    pdf.drawImage('/home/pdfImages/dot.png',(1+shiftHomeVal)*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
+                print('shiftHomeVal',shiftHomeVal)    
+                    
                 if homeValu1 !='$0':
-                
-                    pdf.drawImage('/home/pdfImages/dot.png',1*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.setFont('Vera', 8);
-                    pdf.drawCentredString((6.25/2)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
-                    pdf.setFont('Vera', 8);
-                    pdf.drawCentredString((6.25/2)*cm,(18.8)*cm,homeValu1);
+                    
+                    pdf.setFont('Vera', eqFontSize);
+                    pdf.drawCentredString((3.125+shiftHomeVal)*cm,(19.2)*cm,"ESTIMATED HOME VALUE");
+                    pdf.setFont('Vera', eqFontSize);
+                    pdf.drawCentredString((3.125+shiftHomeVal)*cm,(18.8)*cm,homeValu1);
 
+                if homeEqu1 != '$0':
                     pdf.setLineWidth(0.5);
                     pdf.line(6.25*cm,(19.5)*cm,6.25*cm,(18.65)*cm)
-                
-                if homeEqu1 != '$0':
                     pdf.drawImage('/home/pdfImages/dot.png',7.20*cm,(19.2)*cm,0.2*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawCentredString(9.375*cm,(19.2)*cm,"ESTIMATED HOME EQUITY");
                     pdf.setFont('Vera', 8);
@@ -11720,11 +11734,11 @@ def pdf_gen(request,userId=None):
                     # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                     # print('len:',len(CHOdate1))
-                    pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                    pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
                 if corDate2 !='NA':
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
-                    pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
+                    pdf.drawString(15.5*cm,(10.78+rightSpacing)*cm,corpFile2)
             
                 # extraHeight=2
             
@@ -11739,7 +11753,7 @@ def pdf_gen(request,userId=None):
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
-                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
             
             
             rightSpacing = 0
@@ -11785,18 +11799,19 @@ def pdf_gen(request,userId=None):
                 rightSpacing += 4.5
             else:
                 rightSpacing += 3
+                
             if len(licences) == 0 and profLicence == 'NA':
                 pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                 pdf.drawString(14.3*cm,(3.65+rightSpacing)*cm,'No Licenses')
             
             else:
-             
+                
                 if len(licences) != 0:
                     pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(4.1+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.5*cm,(4.2+rightSpacing)*cm,'LICENSES');
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(3.7+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
-                    pdf.setFont('Vera', 9);
+                    pdf.setFont('Vera', 9)
                     if licence1 !='NA':
                         pdf.drawString(14.25*cm,(3.7+rightSpacing)*cm,licence1)
                     if licence2 !='NA':
@@ -11806,21 +11821,21 @@ def pdf_gen(request,userId=None):
                 # print('len(licences)',len(licences))
                 
                 if len(licences) == 0:
-                    licenHt=1.5
+                    licenHt=0
                 elif len(licences) == 1 or len(licences) == 2:   
                     licenHt=1
                 elif len(licences) == 3 or len(licences) == 4:   
                     licenHt=0.5
                 
-                else:
-                    licenHt=0
-                # rightSpacing = socialHght + corpHght  + licenHt-1
+                rightSpacing = rightSpacing+licenHt
                 # print('rightSpacing5',rightSpacing)
+                print('length:',licenHt)
                 if profLicence != 'NA':
                     if len(licences) == 0:
                         pdf.drawImage('/home/pdfImages/Licenses.png',13.65*cm,(2.6+rightSpacing)*cm,0.5*cm,0.45*cm,preserveAspectRatio=False, mask='auto');
                         pdf.setFont('Vera', 12);
                         pdf.drawString(14.5*cm,(2.7+rightSpacing)*cm,'LICENSES');
+                    pdf.setFont('Vera', 9);
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(2.05+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(2.05+rightSpacing)*cm,"Professional Licenses:")
                     profLic = []
@@ -12324,7 +12339,7 @@ def template4(request,userId=None):
             else:
                 profileString = profileString[22:]
 
-                print(profileString)
+                # print(profileString)
 
                 im = Image.open(BytesIO(base64.b64decode(profileString)))
                 im.save('profileImage.jpg', 'PNG')
@@ -15133,11 +15148,11 @@ def template4(request,userId=None):
                     # pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(7.25)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
                     # print('len:',len(CHOdate1))
-                    pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                    pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
                 if corDate2 !='NA':
                     pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(10.78+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                     pdf.drawString(14.25*cm,(10.78+rightSpacing)*cm,corDate2)
-                    pdf.drawString(16.2*cm,(10.78+rightSpacing)*cm,corpFile2)
+                    pdf.drawString(15.5*cm,(10.78+rightSpacing)*cm,corpFile2)
             
                 # extraHeight=2
             
@@ -15152,7 +15167,7 @@ def template4(request,userId=None):
                 pdf.drawImage('/home/pdfImages/Bullet_2.png',13.75*cm,(11.3+rightSpacing)*cm,0.3*cm,0.2*cm,preserveAspectRatio=False, mask='auto');
                 
                 pdf.drawString(14.25*cm,(11.34+rightSpacing)*cm,corDate1)
-                pdf.drawString(16.2*cm,(11.34+rightSpacing)*cm,corpFile1)
+                pdf.drawString(15.5*cm,(11.34+rightSpacing)*cm,corpFile1)
             
             
             rightSpacing = 0
