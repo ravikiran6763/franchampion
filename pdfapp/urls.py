@@ -20,5 +20,8 @@ urlpatterns = [
     url(r'^template4/', views.template4,name='template4'), 
     path('template4/', views.template4),
     
+    url(r'^dumpToClient/', views.dumpToClient,name='dumpToClient'), 
+    path('dumpToClient/', views.dumpToClient),
+    
     
 ]

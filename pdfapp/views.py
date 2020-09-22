@@ -78,6 +78,7 @@ pdfmetrics.registerFont(TTFont('VeraIt', 'VeraIt.ttf'))
 pdfmetrics.registerFont(TTFont('VeraBI', 'VeraBI.ttf'))
 
 today = date.today()
+print('today',today);
 mon = str(today.month)
 day = str(today.day)
 year = str(today.year)
@@ -90,6 +91,11 @@ import re
 
 from PIL import Image
 import cv2
+
+
+import ftplib
+from pathlib import Path
+# from ftplib import FTP  
 # Take in base64 string and return cv image
 def stringToRGB(base64_string):
     imgdata = base64.b64decode(str(base64_string))
@@ -1542,7 +1548,8 @@ def template1(request,userId=None):
         
         # pdf.drawImage('/home/pdfImages/divorce.png',2.55*cm,(10.4)*cm,3.8*cm,2*cm,preserveAspectRatio=False, mask='auto');    
         if spouse_name != 'NA' or  edu1 != 'NA' or univ1 != 'NA' or edu2 != 'NA' or univ2 != 'NA': 
-            pdf.line(1.3*cm,(18.23)*cm,11.2*cm,(18.23)*cm)
+            print('hi')
+            pdf.line(1.3*cm,(18.03)*cm,11.2*cm,(18.03)*cm)
         
         
         # if Education != 'NA' or university != 'NA':
@@ -4741,27 +4748,48 @@ def template2(request,userId=None):
                 
             
         if estSavings !='NA':
-            if Per_Salary != 'NA':
-                pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, (24.7)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-                pdf.setFont('VeraBd', 11);
-                pdf.drawString((estSal)*cm,(24.9)*cm,"ESTIMATED YEARLY SALARY:  ")
-                pdf.setFillColorRGB(255,0,0)
-                pdf.drawString(estSalVal*cm,(24.9)*cm,Per_Salary);
             
-            estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
-            pdf.setFillColorRGB(0,0,0)
-            pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, (23.85)*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, (23.9)*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, (23.9)*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
-            pdf.setFont('VeraBI', 11);
-            pdf.setFillColorRGB(255,255,255)
-            pdf.drawString(savingTitle*cm,(24.1)*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
-            pdf.setFillColorRGB(255,0,0)
-            pdf.drawString(savingVal*cm,(24.1)*cm,estSavings);
-            # pdf.drawCentredString((noImageMargin/2)*cm,25*cm,"ESTIMATED YEARLY SALARY:  "+Per_Salary);
-            # estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
-            # pdf.drawCentredString((noImageMargin/2)*cm,24.4*cm,"ESTIMATED RETIREMENT SAVINGS:  "+estSavings);
+            if JOB1 == 'NA' and JOB2 == 'NA' and comp1 == 'NA' and comp2 == 'NA' and prevJOB1 == 'NA' and prevJOB2 == 'NA' and prevComp1 == 'NA' and prevComp2 == 'NA':
+                print('this loop')
+                if Per_Salary != 'NA':
+                    pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, (24.7)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawString((estSal)*cm,(24.9)*cm,"ESTIMATED YEARLY SALARY:  ")
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString(estSalVal*cm,(24.9)*cm,Per_Salary);
+                
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, (25.85)*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, (25.9)*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, (25.9)*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString(savingTitle*cm,(26.1)*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                pdf.setFillColorRGB(255,0,0)
+                pdf.drawString(savingVal*cm,(26.1)*cm,estSavings);
+            else:
+                if Per_Salary != 'NA':
+                    pdf.drawImage('/home/pdfImages/salaryNew.png', estSalImgMargin*cm, (24.7)*cm, width=9.8*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                    pdf.setFont('VeraBd', 11);
+                    pdf.drawString((estSal)*cm,(24.9)*cm,"ESTIMATED YEARLY SALARY:  ")
+                    pdf.setFillColorRGB(255,0,0)
+                    pdf.drawString(estSalVal*cm,(24.9)*cm,Per_Salary);
+                
+                estSavings = custom_format_currency(estSavings, 'USD', locale='en_US')
+                pdf.setFillColorRGB(0,0,0)
+                pdf.drawImage('/home/pdfImages/savingsIcon.png', savingIcon*cm, (23.85)*cm, width=0.8*cm, height=0.8*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingRight.png', savingRight*cm, (23.9)*cm, width=8.5*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                # pdf.drawImage('/home/pdfImages/retirment.png', 1.1*cm, 23.9*cm, width=10.25*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.drawImage('/home/pdfImages/savingsLeft.png', savingLeft*cm, (23.9)*cm, width=3*cm, height=0.7*cm, mask='auto',preserveAspectRatio=False, anchor='c')
+                pdf.setFont('VeraBI', 11);
+                pdf.setFillColorRGB(255,255,255)
+                pdf.drawString(savingTitle*cm,(24.1)*cm,"ESTIMATED RETIREMENT SAVINGS:  ");
+                pdf.setFillColorRGB(255,0,0)
+                pdf.drawString(savingVal*cm,(24.1)*cm,estSavings);
+            
+            
         else:
             if JOB1 != 'NA' and Per_Salary !='NA':
                 pdf.setFont('VeraBd', 11);
@@ -4948,7 +4976,7 @@ def template2(request,userId=None):
                         
                         pdf.drawString(2*cm,(14.7-noSpouseHt+homeHeight+Equiheight)*cm,"ESTIMATED HOME VALUE:  ");
                         pdf.setFont('VeraBd', 10);
-                        pdf.drawString(7*cm,(17.7-noSpouseHt+homeHeight+Equiheight)*cm,homeValu3);
+                        pdf.drawString(7*cm,(14.7-noSpouseHt+homeHeight+Equiheight)*cm,homeValu3);
                         pdf.setFont('Vera', 10);
                
         
@@ -7520,10 +7548,12 @@ def template3(request,userId=None):
                 pdf.drawImage('/home/pdfImages/family.png',0.75*cm,(14.5+qualiHeight)*cm,9.5*cm,0.65*cm,preserveAspectRatio=False, mask='auto');
                 pdf.drawImage('/home/pdfImages/business.png',1.5*cm,(13.25+qualiHeight)*cm,0.5*cm,1*cm,preserveAspectRatio=False, mask='auto');
              
-                # pdf.setFont('VeraBd', 12);
+                
                 if Spouse_Age == 'NA':
+                    pdf.setFont('VeraBd', 12);
                     pdf.drawString(2.3*cm,(13.55+qualiHeight)*cm,spouse_name);
                 else:
+                    pdf.setFont('VeraBd', 12);
                     pdf.drawString(2.3*cm,(13.8+qualiHeight)*cm,spouse_name);
                 
                 if Spouse_Age != 'NA':
@@ -14577,7 +14607,7 @@ def sendMail(request,userId=None):
                     msg = MIMEText("""No Data found for the Lead Name: """+x[0])
                     sender = 'bss@greettech.com'
                     # recipients = 'ravikiran@greettech.com,ravikiran6763@gmail.com'
-                    recipients = 'jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,at@greettech.com'
+                    recipients = 'jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,at@greettech.com'
                     msg['Subject'] = "No Data Found"
                     msg['From'] = sender
                     msg['To'] = recipients
@@ -14591,6 +14621,16 @@ def sendMail(request,userId=None):
                     print('fs',FNMAE)
                     if fs.exists(FNMAE):
                         with fs.open(FNMAE) as pdf:
+                            
+                            #FTP DUMPING
+                            # session = ftplib.FTP('ftp://192.168.30.24/','ftpuser','sha1260ahs')
+                            # file = open(FNMAE,'rb')                  # file to send
+                            # session.storbinary('STOR kitten.jpg', file)     # send the file
+                            # file.close()                                    # close file and FTP
+                            # session.quit()
+                        
+                        
+                            
                             response = HttpResponse(pdf, content_type='application/pdf')
                             response['Content-Disposition'] = 'filename=FNMAE'
                             
@@ -14608,12 +14648,9 @@ def sendMail(request,userId=None):
                             msg['From'] = "bss@greettech.com"
                             # sender = "bss@greettech.com"
                             
-                                                        
-                            # msg['To'] = "ravikiran@greettech.com"
-                            # msg["Cc"] = "kumar@greettech.com,pratish@greettech.com"
                              
                             msg['To'] = "rburnett@franchampion.com"
-                            msg["Cc"] = "jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,at@greettech.com"
+                            msg["Cc"] = "jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,at@greettech.com"
                            
                                                         
                             # The MIME types for text/html
@@ -14638,7 +14675,8 @@ def sendMail(request,userId=None):
                             #You can also use SSL
                             # smtplib.SMTP_SSL([host[, port[, local_hostname[, keyfile[, certfile[, timeout]]]]]])
                             
-                            s_information.connect('gateway.greettech.com')
+                            # s_information.connect('gateway.greettech.com')
+                            s_information.connect('gatewayn.greettech.com')
                             
                             # s_information.connect('greettech.mail.pairserver.com','465')
                             # s_information.login('testmail@greettech.com','Sodo09090')
@@ -14646,7 +14684,7 @@ def sendMail(request,userId=None):
                             # s_information.sendmail(msg['From'], msg['To'], msg.as_string())
                             
                             s_information.sendmail(msg["From"], msg["To"].split(",") + msg["Cc"].split(","), msg.as_string())
-                            
+                            print("Mail Sent!")  
                             # s_information.sendmail(sender, recipients, msg.as_string())
                             s_information.quit()
                             ##############################################################
@@ -14655,6 +14693,76 @@ def sendMail(request,userId=None):
                             print("File Removed!")                        
                             return response
                     else:
+                        # return HttpResponseNotFound('The requested pdf was not found in our server.')
+                        template = loader.get_template('homePage.html') # getting our template  
+                        return HttpResponse(template.render())       # rendering the template in HttpResponse 
+                        return render(request,'homePage.html')
+def dumpToClient(request,userId=None):
+        userId = request.GET["userId"]
+        
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT CONCAT(First_Name,' ',Last_Name) as FullName,noData from usData where  usData.id='{}'".format(userId))
+            myresult = cursor.fetchall()
+            for x in myresult:
+                var = myresult[0]
+                print('Result',x[0])
+                
+                FNMAE = x[0]+'.pdf'
+                noData = x[1]
+                
+                if noData == 1:
+                
+                    s = smtplib.SMTP('gatewayn.greettech.com')
+                    s.set_debuglevel(1)
+                    msg = MIMEText("""No Data found for the Lead Name: """+x[0])
+                    sender = 'bss@greettech.com'
+                    # recipients = 'ravikiran@greettech.com,ravikiran6763@gmail.com'
+                    recipients = 'jmaddux@franchampion.com,kumar@greettech.com,rkburnett@hotmail.com,atlq1@greettech.com,reena@greettech.com,at@greettech.com'
+                    msg['Subject'] = "No Data Found"
+                    msg['From'] = sender
+                    msg['To'] = recipients
+                    s.sendmail(sender, recipients.split(','), msg.as_string())
+                    
+                    template = loader.get_template('noData.html') # getting our template  
+                    return HttpResponse(template.render())       # rendering the template in HttpResponse 
+                    return render(request,'noData.html')
+                else:
+                    fs = FileSystemStorage()
+                    print('fs',FNMAE)
+                    if fs.exists(FNMAE):
+                        with fs.open(FNMAE) as pdf:
+                            FTP_HOST = "192.168.30.24"
+                            FTP_USER = "ftpuser"
+                            FTP_PASS = "sha1260ahs"
+                            
+                            # connect to the FTP server
+                            ftp = ftplib.FTP(FTP_HOST, FTP_USER, FTP_PASS)
+                            # force UTF-8 encoding
+                            ftp.encoding = "utf-8"
+                            
+                            # local file name you want to upload
+                            filename = FNMAE
+                            with open(filename, "rb") as file:
+                                # use FTP's STOR command to upload the file
+                                ftp.storbinary(f"STOR {filename}", file)
+                            
+                            
+                            
+                            #FTP DUMPING
+                           # 
+                            # ftp = FTP('')  
+                            # ftp.login('ftpuser', 'sha1260ahs')  
+                            # with open('myfile.txt', 'r') as f:  
+                                # ftp.storlines('STOR %s' % 'remotefile.txt', f)  
+                            # ftp.quit()
+                        
+                        
+                            
+                            response = HttpResponse(pdf, content_type='application/pdf')
+                            response['Content-Disposition'] = 'filename=FNMAE'
+                            # print(response)
+                            return response
+                    else:                       
                         # return HttpResponseNotFound('The requested pdf was not found in our server.')
                         template = loader.get_template('homePage.html') # getting our template  
                         return HttpResponse(template.render())       # rendering the template in HttpResponse 
